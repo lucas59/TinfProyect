@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Admin from '../component/admin';
 import Alumno from '../component/alumno';
 import Docente from '../component/docente';
-import Login from '../component/login';
+import Login from './login';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 
 class Body extends Component {
 
@@ -14,7 +16,6 @@ class Body extends Component {
 
 
     render() {
-
         if (this.state.session != null) {
             if (this.state.session.tipo == 1) {//docente
                 return (<Docente />);
@@ -32,6 +33,7 @@ class Body extends Component {
             );
         }
     }
+
 }
 
 export default Body;

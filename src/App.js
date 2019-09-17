@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cabecera from './component/navigation'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Body from './component/body'
 
 class App extends Component {
@@ -10,11 +11,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-              <Cabecera />
-              <Body/>
-
-      </div>
+      <Router>
+        <div className="App">
+          <Cabecera />
+        </div>
+      </Router>
 
 
     );
