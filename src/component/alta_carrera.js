@@ -11,7 +11,13 @@ class alta_carrera extends Component {
 
     render() {
         return (
-            <h1 >Alta carrera</h1>
+            <>
+                <h1>Alta carrera</h1>
+                <form>
+                    <input type="submit" name="Nombre de la carrera" />
+
+                </form>
+            </>
         );
     }
 }

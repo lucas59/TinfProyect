@@ -15,7 +15,7 @@ class Login extends Component {
         return (
             <>
                 <h1>Login</h1>
-                <Link to="/docente">Alumno</Link>
+                <Link to="/alumno">Alumno</Link>
             </>
         );
     }
