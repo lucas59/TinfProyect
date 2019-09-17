@@ -1,6 +1,6 @@
 import React, { Component, View, Text } from 'react';
 import Cabecera from './navigation'
-
+import template from '../vistas/alta_carrera';
 class alta_carrera extends Component {
 
     constructor() {
@@ -10,15 +10,9 @@ class alta_carrera extends Component {
 
 
     render() {
-        return (
-            <>
-                <h1>Alta carrera</h1>
-                <form>
-                    <input type="submit" name="Nombre de la carrera" />
-
-                </form>
-            </>
-        );
+            
+               return template.call(this);
+          
     }
 }
 
