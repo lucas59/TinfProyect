@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-
+import template from '../vistas/login';
 class Login extends Component {
 
     constructor() {
         super();
     }
 
-
     render() {
-
-       return(
-           <h1>Login</h1>
-       );
+       return template.call(this)
+        
     }
 }
 

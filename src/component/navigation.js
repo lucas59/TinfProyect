@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { userInfo } from 'os';
 
 class Cabecera extends Component {
-
+    constructor() {
+        super();
+        this.state = { usuario: "" };
+    }
     render() {
         return (
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,7 +29,15 @@ class Cabecera extends Component {
                         </li>
                     </ul>
                 </div>
-            </nav>
+                <div class="sessionInfo">
+                    {this.state.usuario == null ? (
+                        <button>Registrarse</button>
+                    ) : (
+                            <button>Registrarse</button>
+
+                        )}
+                </div>
+            </nav >
         );
     }
 }
