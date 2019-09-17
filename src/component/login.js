@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import template from '../vistas/login';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import alumno from './alumno'
+import PublicRoute from './ruta_publica';
 class Login extends Component {
 
     constructor() {
@@ -7,8 +9,13 @@ class Login extends Component {
     }
 
     render() {
-       return template.call(this)
-        
+
+        return (
+            <>
+                <h1>Login</h1>
+                <Link to="/docente">Alumno</Link>
+            </>
+        );
     }
 }
 

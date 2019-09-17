@@ -1,45 +1,48 @@
 import React, { Component } from 'react';
-import { userInfo } from 'os';
+import { BrowserRouter as Router, Route, Link ,Switch } from "react-router-dom";
+import altaCarrera from './alta_carrera';
+import alumno from './alumno';
+import Body from './body';
+import Login from './login';
 
-class Cabecera extends Component {
-    constructor() {
-        super();
-        this.state = { usuario: "" };
-    }
-    render() {
-        return (
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sessionInfo">
-                    {this.state.usuario == null ? (
-                        <button>Registrarse</button>
-                    ) : (
-                            <button>Registrarse</button>
+const Cabecera = ({ match }) => (
 
-                        )}
-                </div>
-            </nav >
+            <Router>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <Link to={`/altaCarrera`}>Alta carrera</Link>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                    <Switch>
+                        <Route exact path="/" component={Body} />
+                        <Route path="/altaCarrera" component={altaCarrera} />
+                        <Route path="/alumno" component={alumno} />
+                        <Route path="/ingresar" component={Login} />
+                        
+                    </Switch>
+
+            </Router>
+
         );
-    }
-}
+    
+
 
 export default Cabecera;
