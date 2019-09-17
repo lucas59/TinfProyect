@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class materia extends component {
+class altaMateria extends component {
     constructor() {
         super();
      
@@ -9,9 +9,8 @@ class materia extends component {
 
     render() {
         return (
-            <h1> una materia </h1>
         );
     }
 }
 
-export default materia;
+export default altaMateria;

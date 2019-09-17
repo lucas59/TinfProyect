@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link ,Switch } from "react-router-dom";
 import altaCarrera from './alta_carrera';
 import alumno from './alumno';
 import Body from './body'
+import altaMateria from './altaMateria';
 
 const Cabecera = ({ match }) => (
 
@@ -34,6 +35,7 @@ const Cabecera = ({ match }) => (
                         <Route exact path="/" component={Body} />
                         <Route path="/altaCarrera" component={altaCarrera} />
                         <Route path="/alumno" component={alumno} />
+                        <Route path="/altaMateria" component={altaMateria}/>
                     </Switch>
 
             </Router>
