@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class altaMateria extends component {
+class altaMateria extends Component {
     constructor() {
         super();
      
@@ -9,6 +9,7 @@ class altaMateria extends component {
 
     render() {
         return (
+            <h1></h1>
         );
     }
 }

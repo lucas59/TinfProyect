@@ -4,7 +4,7 @@ const template = () => (
     <div>
         <h1>Alta carrera</h1>
         <form class="form">
-            <p>Nombre</p><input id="nombre" type="text" placeholder="Nombre de la carrera"/>
+            <p>Nombre</p><input id="nombre" type="text" placeholder="Nombre de la carrera" />
             <p>Descripción</p><input id="descripcion" type="text" placeholder="Descripción de la carrera"></input>
             <p>Perfil de ingreso</p><textarea id="perfil_ing" placeholder="Perfil de ingreso"></textarea>
             <p>Perfil de egreso</p><textarea id="perfil_egr" placeholder="Perfil de egreso"></textarea>
@@ -14,14 +14,14 @@ const template = () => (
                 <option value="Jose">Jose</option>
                 <option value="Pedro">Pedro</option>
                 <option value="Varela">Varela</option>
-                </select>
+            </select>
             <p>Materias</p>
             <select id="materias">
                 <option value=".Net">.Net</option>
                 <option value="Probabilidad">Probabilidad y estadisticas</option>
                 <option value="sistemas de control">Sistemas de control</option>
             </select>
-            <input name="aceptar" value="Aceptar" type="button"/>
+            <input name="aceptar" value="Aceptar" type="button" />
         </form>
     </div>
 );
