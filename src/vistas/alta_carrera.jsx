@@ -1,9 +1,9 @@
 import React from 'react';
-import '../estilos/alta_carrera.css';
+import styles from '../estilos/alta_carrera.module.css';
 const template = () => (
     <div>
-        <h1>Alta carrera</h1>
-        <form class="form">
+        <h1 className={styles.titulo}>Alta carrera</h1>
+        <form className={styles.form}>
             <p>Nombre</p><input id="nombre" type="text" placeholder="Nombre de la carrera" />
             <p>Descripción</p><input id="descripcion" type="text" placeholder="Descripción de la carrera"></input>
             <p>Perfil de ingreso</p><textarea id="perfil_ing" placeholder="Perfil de ingreso"></textarea>
