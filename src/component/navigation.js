@@ -1,50 +1,38 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link ,Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import altaCarrera from './alta_carrera';
+import modificarCarrera from './modificar_carrera';
+import eliminarCarrera from './eliminar_carrera';
 import alumno from './alumno';
 import Body from './body'
 import altaMateria from './altaMateria';
+import { Nav, Navbar, NavItem } from "react-bootstrap";
 
 import Login from './login';
 
 const Cabecera = ({ match }) => (
 
-            <Router>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <Router>
+        <Navbar bg="dark" variant="dark">
+            <Navbar.Brand href="/">Inicio</Navbar.Brand>
+            <Nav className="mr-auto">
+                <Nav.Link href="/altaCarrera">Alta carrera</Nav.Link>
+                <Nav.Link href="/modificarCarrera">Modificar carrera</Nav.Link>
+                <Nav.Link href="/eliminarCarrera">Eliminar carrera</Nav.Link>
+            </Nav>
+        </Navbar >
+        <Switch>
+            <Route exact path="/" component={Body} />
+            <Route path="/altaCarrera" component={altaCarrera} />
+            <Route path="/modificarCarrera" component={modificarCarrera} />
+            <Route path="/eliminarCarrera" component={eliminarCarrera} />
+            <Route path="/alumno" component={alumno} />
+            <Route path="/altaMateria" component={altaMateria} />
+            <Route path="/ingresar" component={Login} />
+        </Switch>
+    </Router >
+);
 
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <Link to={`/altaCarrera`}>Alta carrera</Link>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                    <Switch>
-                        <Route exact path="/" component={Body} />
-                        <Route path="/altaCarrera" component={altaCarrera} />
-                        <Route path="/alumno" component={alumno} />
-                        <Route path="/altaMateria" component={altaMateria}/>
-                        <Route path="/ingresar" component={Login} />
-                    </Switch>
-
-            </Router>
-
-        );
-    
 
 
 export default Cabecera;

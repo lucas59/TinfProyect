@@ -1,8 +1,7 @@
 import React from 'react';
-import modificarCarrera from './modificar_carrera';
 const template = () => (
     <div>
-        <h1>Alta carrera</h1>
+        <h1>Modificar carrera</h1>
         <form class="form">
             <p>Nombre</p><input id="nombre" type="text" placeholder="Nombre de la carrera" />
             <p>Descripción</p><input id="descripcion" type="text" placeholder="Descripción de la carrera"></input>
@@ -25,5 +24,4 @@ const template = () => (
         </form>
     </div>
 );
-
 export default template;
