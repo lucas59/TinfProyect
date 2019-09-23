@@ -11,7 +11,6 @@ import { Nav, Navbar, NavItem } from "react-bootstrap";
 import Login from './login';
 
 const Cabecera = ({ match }) => (
-
     <Router>
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="/">Inicio</Navbar.Brand>

@@ -1,5 +1,5 @@
 import React from 'react';
-import modificarCarrera from './modificar_carrera';
+import '../estilos/alta_carrera.css';
 const template = () => (
     <div>
         <h1>Alta carrera</h1>
