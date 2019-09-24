@@ -4,6 +4,7 @@ import altaCarrera from './alta_carrera';
 import alumno from './alumno';
 import Body from './body';
 import Login from './login';
+import Signup from './signup';
 
 const Cabecera = ({ match }) => (
 
@@ -36,6 +37,8 @@ const Cabecera = ({ match }) => (
                         <Route path="/altaCarrera" component={altaCarrera} />
                         <Route path="/alumno" component={alumno} />
                         <Route path="/ingresar" component={Login} />
+                        <Route path="/registrarme" component={Signup} />
+                        
                         
                     </Switch>
 

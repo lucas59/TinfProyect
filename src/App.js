@@ -14,6 +14,8 @@ class App extends Component {
       <Router>
         <div className="App">
           <Cabecera />
+      <Body></Body>
+
         </div>
       </Router>
 
