@@ -10,9 +10,7 @@ class Login extends Component {
     }
 
     render() {
-
-        return template.call(this)
-
+        return template.call(this);
     }
 }
 
