@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import template from '../vistas/altaMateria';
 
 class altaMateria extends Component {
     constructor() {
         super();
-     
+
 
     }
 
     render() {
-        return (
-            <h1></h1>
-        );
+        return template.call(this);
     }
 }
 
