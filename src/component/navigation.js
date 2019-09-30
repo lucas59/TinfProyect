@@ -73,6 +73,11 @@ class Cabecera extends Component {
                   Eliminar carrera
                 </NavLink>
               </li>
+              <li class="nav-item">
+                <NavLink className={styles.links} to="/altaMateria">
+                  Alta materia
+                </NavLink>
+              </li>
             </ul>
           </div>
           {!sessionStorage.getItem("session") ? (
