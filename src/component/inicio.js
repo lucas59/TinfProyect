@@ -16,10 +16,10 @@ class Inicio extends Component {
 
     render() {
 
-//        return template.call(this)
-return (
-    <h1>Inicio</h1>
-);
+        //        return template.call(this)
+        return (
+            <h1>Inicio</h1>
+        );
 
     }
 }
