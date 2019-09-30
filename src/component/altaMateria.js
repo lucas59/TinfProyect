@@ -7,7 +7,7 @@ class altaMateria extends Component {
     }
 
 
-    crearMateria = () => {
+    /*crearMateria = () => {
         event.preventDefault();
         let
             materia = {
@@ -16,7 +16,7 @@ class altaMateria extends Component {
 
 
             }
-    }
+    }*/
 
     render() {
         return (

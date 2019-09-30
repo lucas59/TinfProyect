@@ -35,10 +35,10 @@ class alta_carrera extends Component {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify(data)
+            body:data
         })
         .then(function(res) {
-            console.log(res);
+            console.log("carrera",res);
           })
           .catch(function(res) {
             console.log("res", res);
