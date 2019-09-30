@@ -2,94 +2,90 @@ import React, { Component, View, Text } from 'react';
 import Cabecera from './navigation'
 import template from '../vistas/alta_carrera';
 import styles from '../estilos/alta_carrera.module.css';
+import { server } from "../config/config";
+
 class alta_carrera extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            nombre: "",
-            desc: "",
-            perfil_ing: "",
-            perfil_egr: "",
-            cont: "",
-            materias: ""
+            nombre: "sd",
+            desc: "sd",
+            perfil_ing: "sd",
+            perfil_egr: "sd",
+            cont: "d",
+            materias: "d"
         };
-        this.NombreChange = this.NombreChange.bind(this);
-        this.descChange = this.descChange.bind(this);
-        this.perfil_ingChange = this.perfil_ingChange.bind(this);
-        this.perfil_egrChange = this.perfil_egrChange.bind(this);
-        this.contChange = this.contChange.bind(this);
-        this.materiasChange = this.materiasChange.bind(this);
     }
-    NombreChange(event) {
-        this.setState({nombre: event.target.value});
-    }
-    descChange(event) {
-        this.setState({desc: event.target.value});
-    }
-    perfil_ingChange(event) {
-        this.setState({perfil_ing: event.target.value});
-    }
-    perfil_egrChange(event) {
-        this.setState({perfil_egr: event.target.value});
-    }
-    contChange(event) {
-        this.setState({cont: event.target.value});
-    }
-    materiasChange(event) {
-        this.setState({materias: event.target.value});
-    }
-    
-    Alta_carrera() {
+
+    Alta_carrera = () => {
         console.log("entra");
         const { nombre, desc, perfil_egr, perfil_ing, cont, materias } = this.state;
         var data = new URLSearchParams();
         data.append("nombre_carrera", nombre);
-        data.append("descripcion_carrera", desc);
-        data.append("perfilingreso_carrera", perfil_ing);
-        data.append("perfilegreso_carrera", perfil_egr);
-        data.append("contactos_carrera", cont);
-        data.append("materias_carrera", materias);
-
-        fetch('http://localhost:3050/carrera/altaCarrera', {
-            method: 'POST',
+        data.append("descripcion_empresa", desc);
+        data.append("perfilingreso_empresa", perfil_ing);
+        data.append("perfilegreso_empresa", perfil_egr);
+        data.append("contactos_empresa", cont);
+        data.append("materias_empresa", materias);
+        console.log(JSON.stringify(data));
+        fetch(server.api + 'carrera/altaCarrera', {
+            method: "POST",
+            credentials: "include", 
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+              "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: data
+            body: JSON.stringify(data)
         })
-            .then(res => {
-                return res.json()
-            })
-            .then(async data => {
-                const retorno = data;
-                console.log(data);
-            })
-            .catch(function (err) {
-                console.log('error', err);
-            })
+        .then(function(res) {
+            console.log(res);
+          })
+          .catch(function(res) {
+            console.log("res", res);
+          });
 
-    }
+    };
 
     render() {
         return (
         < div >
-            <h1 classname="{styles.titulo}">Alta carrera</h1>
-            <form classname="{styles.form}">
-                <p>Nombre</p><input value={this.state.nombre} onChange={this.NombreChange} className="form-control texto" type="text" placeholder="Nombre de la carrera" />
-                <p>Descripción</p><input value={this.state.desc} onChange={this.descChange} className="form-control texto" id="descripcion" type="text" placeholder="Descripción de la carrera" />
-                <p>Perfil de ingreso</p><textarea value={this.state.perfil_ing} onChange={this.perfil_ingChange} className="form-control texto" id="perfil_ing" placeholder="Perfil de ingreso" defaultValue={""} />
-                <p>Perfil de egreso</p><textarea value={this.state.perfil_egr} onChange={this.perfil_egrChange} className="form-control texto" id="perfil_egr" placeholder="Perfil de egreso" defaultValue={""} />
-                <p>Contactos</p><textarea value={this.state.cont} onChange={this.contChange} className="form-control texto" id="contactos" placeholder="Contactos" defaultValue={""} />
+                <p>Nombre</p><input onChange={nombre => this.setState({nombre})} className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email" />
+                <p>Descripción</p><input onChange={desc => this.setState({desc})} className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email" />
+                <p>Perfil de ingreso</p><textarea onChange={perfil_ing => this.setState({perfil_ing})}className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email" />
+                <p>Perfil de egreso</p><textarea onChange={perfil_egr => this.setState({perfil_egr})} id="perfil_egr" className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email"/>
+                <p>Contactos</p><textarea onChange={cont => this.setState({cont})} className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email" />
          
                 <p>Materias</p>
-                <select id="materias" value={this.state.materias} onChange={this.materiasChange}>
+                <select className="form-control"
+            type="text"
+            name="email"
+            placeholder="Email" onChange={materias => this.setState({materias})}>
                     <option value=".Net">.Net</option>
                     <option value="Probabilidad">Probabilidad y estadisticas</option>
                     <option value="sistemas de control">Sistemas de control</option>
                 </select>
-                <input id="aceptar" onClick={this.Alta_carrera()} name="aceptar" defaultValue="Aceptar" type="button" />
-            </form>
+                <button
+            onClick={this.Alta_carrera}
+            className="btn btn-primary btn-block"
+            type="submit"
+          >
+            Log In
+          </button>
             </div >
             )
     }
