@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import Style from '../estilos/altaMateria.css';
 
 class altaMateria extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+    }
+
+
+    crearMateria = () => {
+        event.preventDefault();
+        let
+            materia = {
+                nombre: event.target.Nombre.value,
+                creditos: event.target.Creditos.value,
+
+
+            }
     }
 
     render() {
@@ -51,7 +63,7 @@ class altaMateria extends Component {
                                     <div className="col-md-10 offset-md-1"><textarea className="form-control" placeholder="Evaluación..." style={{ fontFamily: 'Roboto, sans-serif' }} defaultValue={""} /></div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
-                                    <div className="col-12 col-md-4 offset-md-4" style={{ width: 259 }}><button className="btn btn-light btn-lg" type="reset" style={{ fontFamily: 'Roboto, sans-serif' }}>Salir</button><button className="btn btn-light btn-lg" type="submit" style={{ marginLeft: 16 }}>Crear</button></div>
+                                    <div className="col-12 col-md-4 offset-md-4" style={{ width: 259 }}><button className="btn btn-light btn-lg" type="reset" style={{ fontFamily: 'Roboto, sans-serif' }}>Salir</button><button onClick={this.crearMateria} className="btn btn-light btn-lg" type="submit" style={{ marginLeft: 16 }}>Crear</button></div>
                                 </div>
                             </div>
                         </div>

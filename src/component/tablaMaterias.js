@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import Style from '../estilos/tablaMaterias.css';
 import filtro from '../otros/filtroTablaMateria.js';
 
-class tablaMaterias extends Component {
-    constructor() {
-        super();
-    }
-
+export default class tablaMaterias extends Component {
     render() {
         return (
             <div className="col-md-12 search-table-col">
