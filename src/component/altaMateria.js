@@ -8,14 +8,14 @@ class altaMateria extends Component {
 
 
     crearMateria = () => {
-        event.preventDefault();
+      /*  event.preventDefault();
         let
             materia = {
                 nombre: event.target.Nombre.value,
                 creditos: event.target.Creditos.value,
 
 
-            }
+            }*/
     }
 
     render() {
