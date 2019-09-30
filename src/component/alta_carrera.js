@@ -23,11 +23,11 @@ class alta_carrera extends Component {
         const { nombre, desc, perfil_egr, perfil_ing, cont, materias } = this.state;
         var data = new URLSearchParams();
         data.append("nombre_carrera", nombre);
-        data.append("descripcion_empresa", desc);
-        data.append("perfilingreso_empresa", perfil_ing);
-        data.append("perfilegreso_empresa", perfil_egr);
-        data.append("contactos_empresa", cont);
-        data.append("materias_empresa", materias);
+        data.append("descripcion_carrera", desc);
+        data.append("perfilingreso_carrera", perfil_ing);
+        data.append("perfilegreso_carrera", perfil_egr);
+        data.append("contactos_carrera", cont);
+        data.append("materias_carrera", materias);
         console.log(JSON.stringify(data));
         fetch(server.api + 'carrera/altaCarrera', {
             method: "POST",
