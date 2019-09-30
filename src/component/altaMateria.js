@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import Style from '../estilos/altaMateria.css';
 
 class altaMateria extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
+
 
     crearMateria = () => {
         event.preventDefault();
         let
-        materia = {
-            nombre: event.target.Nombre.value,
-            creditos: event.target.Creditos.value,
+            materia = {
+                nombre: event.target.Nombre.value,
+                creditos: event.target.Creditos.value,
 
 
-        }
+            }
     }
 
     render() {
