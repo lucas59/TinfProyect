@@ -1,14 +1,27 @@
 import React from 'react';
-import '../estilos/login.css';
+import styles from '../estilos/login.css';
+
 const template = () => (
-    <div class="container container-login">
-        <h2>Ingresar</h2>
-        <form className="formLogin">
-            <input type="text" name="correo" placeholder="Correo electronico" />
-            <input type="text" name="contraseña" placeholder="Contraseña" id="" />
-            <input type="submit" name="btnEnviar" value="Ingresar" />
-        </form>
+    <div style={styles.contenedorlogin} id="contenedorlogin" >
+    <div style={styles.wrapper, styles.fadeInDown} className="wrapper fadeInDown">
+  <div style={styles.formContent} id="formContent">
+    <div className="fadeIn first">
+      <img src={require("../img/coder.png")}  id="icon" alt="User Icon" />
     </div>
+    <form>
+      <input type="text" id="login" className="fadeIn second" name="login" placeholder="Correo" />
+      <input type="text" id="password" className="fadeIn third" name="login" placeholder="Contraseña" />
+      <input type="submit" value="Ingresar" className="fadeIn fourth" defaultValue="Log In" />
+    </form>
+    {/* Remind Passowrd */}
+    <div id="formFooter">
+      <a className="underlineHover" href="#">¿Olvidastes tu contraseña?</a>
+    </div>
+  </div>
+  
+</div>
+</div>
 );
+
 
 export default template;
