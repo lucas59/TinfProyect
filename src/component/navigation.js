@@ -31,7 +31,7 @@ class Cabecera extends Component {
 
   cerrarSession = () => {
     sessionStorage.removeItem("session");
-    this.setState("session", null);
+    window.location.reload();
   };
 
   iniciarSession = () => {
