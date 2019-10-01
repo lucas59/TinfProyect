@@ -1,37 +1,49 @@
 import React, { Component } from "react";
 import { server } from "../config/config";
 
-import stylesLogin from "../estilos/login.css";
+import stylesSignup from "../estilos/signup.css"; // Tell Webpack that Button.js uses these styles
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      correo: "asd",
-      password: "asd"
+      cedula: "",
+      contraseña: ""
     };
   }
 
-  enviardatos = () => {
-    const { correo, password } = this.state;
-    /*   if (correo == "" || password == "") {
-      return;
-    }*/
-    var params = {
-      "correo": correo,
-      "password": password
-    };
 
-    fetch(server.api + "estudiantes/login", {
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  enviardatos = () => {
+    const { cedula, contraseña } = this.state;
+    if (cedula == "" || contraseña == "") {
+      return;
+    }
+
+    var data = new URLSearchParams();
+    data.append("cedula", cedula);
+    data.append("pass", contraseña);
+
+    fetch(server.api + "administrador/login", {
       method: "POST",
-      credentials: "include", 
+      credentials: "include",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: JSON.stringify(params)
+      body: data
     })
       .then(function(res) {
-        console.log(res);
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        if (data.retorno == true) {
+          sessionStorage.setItem("session", data.user);
+          window.location.reload();
+        } else {
+          alert(data.mensaje);
+        }
       })
       .catch(function(res) {
         console.log("res", res);
@@ -43,42 +55,49 @@ class Login extends Component {
   };
 
   render() {
+    const { cedula, contraseña } = this.state;
     return (
-      <div className="login-clean">
-        <h2 className="sr-only">Login Form</h2>
-        <div className="illustration">
-          <i className="icon ion-ios-navigate" />
+      <div className="register-photo">
+        <div className="form-container">
+          <div className="image-holder" />
+          <div className="form">
+            <h2 className="text-center">
+              <strong>Bienvenido</strong>.
+            </h2>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="text"
+                name="cedula"
+                value={cedula}
+                placeholder="Correo"
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="password"
+                name="contraseña"
+                value={contraseña}
+                placeholder="Contraseña"
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="form-group">
+              <button
+                onClick={this.enviardatos}
+                className="btn btn-primary btn-block"
+                type="submit"
+              >
+                Ingresar
+              </button>
+            </div>
+            <a href="/registrarse" className="already">
+              Crear una cuenta
+            </a>
+          </div>
         </div>
-        <div className="form-group">
-          <input
-            className="form-control"
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={correo => this.setState({ correo })}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={password => this.setState({ password })}
-          />
-        </div>
-        <div className="form-group">
-          <button
-            onClick={this.enviardatos}
-            className="btn btn-primary btn-block"
-            type="submit"
-          >
-            Log In
-          </button>
-        </div>
-        <a href="#" className="forgot">
-          Forgot your email or password?
-        </a>
       </div>
     );
   }
