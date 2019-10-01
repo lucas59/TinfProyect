@@ -5,7 +5,7 @@ import {
     BrowserRouter as Router,
     Route,
     NavLink
-  } from "react-router-dom";
+} from "react-router-dom";
 class lista_carreras extends Component {
     constructor(props) {
         super(props);
@@ -35,10 +35,10 @@ class lista_carreras extends Component {
                 var ret = data.mensaje.map((data, i) => {
                     console.log(data._id);
                     return (
-                        <tr>
-                            <td id={i}>{data.nombre_carrera}</td>
-                            <td id={i}>{data.descripcion_carrera}</td>
-                            <td>Eliminar y modificar</td>
+                        <tr id={i}>
+                            <td>{data.nombre_carrera}</td>
+                            <td>{data.descripcion_carrera}</td>
+                            <td><button className="btn btn-info">Eliminar</button> <button className="btn btn-info">Modificar</button></td>
                         </tr>
                     )
                 });
@@ -59,23 +59,24 @@ class lista_carreras extends Component {
     render() {
         return (
             <>
-                 <NavLink className={styles.links} to="/alta_carrera">
-                  Carreras
+
+                <div className={styles.tabla_carreras}>
+                    <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
+                    <NavLink style={{ fontSize: 20 }} className={styles.links} to="/alta_carrera">
+                        Agregar carrera
                 </NavLink>
-            <div className={styles.tabla_carreras}>
-                <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
-                <table className='table'>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>{this.state.lista}</tbody>
-                </table>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>{this.state.lista}</tbody>
+                    </table>
                 </div>
-                </>
+            </>
         )
 
     }
