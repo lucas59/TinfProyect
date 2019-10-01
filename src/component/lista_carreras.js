@@ -1,6 +1,11 @@
 import React, { Component, View, Text } from 'react';
 import styles from '../estilos/lista_carreras.module.css';
 import { server } from "../config/config";
+import {
+    BrowserRouter as Router,
+    Route,
+    NavLink
+  } from "react-router-dom";
 class lista_carreras extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +58,10 @@ class lista_carreras extends Component {
 
     render() {
         return (
+            <>
+                 <NavLink className={styles.links} to="/alta_carrera">
+                  Carreras
+                </NavLink>
             <div className={styles.tabla_carreras}>
                 <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
                 <table className='table'>
@@ -66,6 +75,7 @@ class lista_carreras extends Component {
                 <tbody>{this.state.lista}</tbody>
                 </table>
                 </div>
+                </>
         )
 
     }

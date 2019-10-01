@@ -51,7 +51,7 @@ class alta_carrera extends Component {
     render() {
         const { nombre, perfil_egr, perfil_ing, desc, materias, cont } = this.state;
         return (
-            < div >
+            < div style='form-group' >
                 <p>Nombre</p><input
                     className="form-control"
                     value={nombre}

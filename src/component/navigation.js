@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Route,
-  match,
   NavLink
 } from "react-router-dom";
 import lista_carreras from "./lista_carreras";
@@ -12,6 +11,7 @@ import alumno from "./alumno";
 import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
 import styles from "../estilos/navigation.module.css";
+import alta_carrera from "./alta_carrera";
 
 import Login from "./login";
 import Signup from "./signup";
@@ -86,6 +86,7 @@ class Cabecera extends Component {
         />
 
         <Route path="/lista_carreras" component={lista_carreras} />
+        <Route path="/alta_carrera" component={alta_carrera} />
         <Route path="/modificarCarrera" component={modificarCarrera} />
         <Route path="/eliminarCarrera" component={eliminarCarrera} />
         <Route path="/alumno" component={alumno} />
