@@ -5,7 +5,7 @@ import {
   match,
   NavLink
 } from "react-router-dom";
-import altaCarrera from "./alta_carrera";
+import lista_carreras from "./lista_carreras";
 import modificarCarrera from "./modificar_carrera";
 import eliminarCarrera from "./eliminar_carrera";
 import alumno from "./alumno";
@@ -59,25 +59,11 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <NavLink className={styles.links} to="/altaCarrera">
-                  Alta carrera
+                <NavLink className={styles.links} to="/lista_carreras">
+                  Carreras
                 </NavLink>
               </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/modificarCarrera">
-                  Modificar carrera
-                </NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/eliminarCarrera">
-                  Eliminar carrera
-                </NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/altaMateria">
-                  Alta materia
-                </NavLink>
-              </li>
+            
             </ul>
           </div>
           {!sessionStorage.getItem("session") ? (
@@ -99,7 +85,7 @@ class Cabecera extends Component {
           }}
         />
 
-        <Route path="/altaCarrera" component={altaCarrera} />
+        <Route path="/lista_carreras" component={lista_carreras} />
         <Route path="/modificarCarrera" component={modificarCarrera} />
         <Route path="/eliminarCarrera" component={eliminarCarrera} />
         <Route path="/alumno" component={alumno} />
