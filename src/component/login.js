@@ -37,9 +37,8 @@ class Login extends Component {
         return res.json();
       })
       .then(data => {
-        console.log(data);
         if (data.retorno == true) {
-          sessionStorage.setItem("session", data.user);
+          sessionStorage.setItem("session", JSON.stringify(data.user));
           window.location.reload();
         } else {
           alert(data.mensaje);
