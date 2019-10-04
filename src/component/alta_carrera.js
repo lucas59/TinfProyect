@@ -9,14 +9,16 @@ class alta_carrera extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nombre: "sd",
-            desc: "sd",
-            perfil_ing: "sd",
-            perfil_egr: "sd",
-            cont: "d",
-            materias: "d"
+            nombre: "",
+            desc: "",
+            perfil_ing: "",
+            perfil_egr: "",
+            cont: "",
+            materias: ""
         };
     }
+
+    onChange = e => this.setState({ [e.target.name]: e.target.value });
 
     Alta_carrera = () => {
         console.log("entra");
@@ -31,63 +33,80 @@ class alta_carrera extends Component {
         console.log(JSON.stringify(data));
         fetch(server.api + 'carrera/altaCarrera', {
             method: "POST",
-            credentials: "include", 
+            credentials: "include",
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body:data
+            body: data
         })
-        .then(function(res) {
-            console.log("carrera",res);
-          })
-          .catch(function(res) {
-            console.log("res", res);
-          });
+            .then(function (res) {
+                console.log("carrera", res);
+            })
+            .catch(function (res) {
+                console.log("res", res);
+            });
 
     };
 
     render() {
+        const { nombre, perfil_egr, perfil_ing, desc, materias, cont } = this.state;
         return (
-        < div >
-                <p>Nombre</p><input onChange={nombre => this.setState({nombre})} className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email" />
-                <p>Descripción</p><input onChange={desc => this.setState({desc})} className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email" />
-                <p>Perfil de ingreso</p><textarea onChange={perfil_ing => this.setState({perfil_ing})}className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email" />
-                <p>Perfil de egreso</p><textarea onChange={perfil_egr => this.setState({perfil_egr})} id="perfil_egr" className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email"/>
-                <p>Contactos</p><textarea onChange={cont => this.setState({cont})} className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email" />
-         
+            < div style='form-group' >
+                <p>Nombre</p><input
+                    className="form-control"
+                    value={nombre}
+                    name="nombre"
+                    placeholder="Nombre"
+                    onChange={this.onChange}
+                    type="text" />
+                <p>Descripción</p><input
+                    className="form-control"
+                    value={desc}
+                    name="desc"
+                    placeholder="Descripción"
+                    onChange={this.onChange}
+                    type="text" />
+                <p>Perfil de ingreso</p><textarea
+                    className="form-control"
+                    value={perfil_ing}
+                    name="perfil_ing"
+                    placeholder="Perfil ingreso"
+                    onChange={this.onChange}
+                    type="text" />
+                <p>Perfil de egreso</p><textarea
+                    className="form-control"
+                    value={perfil_egr}
+                    name="perfil_egr"
+                    placeholder="Perfil egreso"
+                    onChange={this.onChange}
+                    type="text" />
+                <p>Contactos</p><textarea
+                    className="form-control"
+                    value={cont}
+                    name="cont"
+                    placeholder="Contactos"
+                    onChange={this.onChange}
+                    type="text" />
                 <p>Materias</p>
                 <select className="form-control"
-            type="text"
-            name="email"
-            placeholder="Email" onChange={materias => this.setState({materias})}>
+                    value={materias}
+                    name="materias"
+                    placeholder="MAterias"
+                    onChange={this.onChange}
+                    type="text">
                     <option value=".Net">.Net</option>
                     <option value="Probabilidad">Probabilidad y estadisticas</option>
                     <option value="sistemas de control">Sistemas de control</option>
                 </select>
                 <button
-            onClick={this.Alta_carrera}
-            className="btn btn-primary btn-block"
-            type="submit"
-          >
-            Log In
+                    onClick={this.Alta_carrera}
+                    className="btn btn-primary btn-block"
+                    type="submit"
+                >
+                    Aceptar
           </button>
             </div >
-            )
+        )
     }
 
 }

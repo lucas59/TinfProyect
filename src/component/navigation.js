@@ -2,7 +2,6 @@ import React, { Component, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
-  match,
   NavLink
 } from "react-router-dom";
 import {
@@ -18,6 +17,7 @@ import {
   FormControl
 } from "react-bootstrap";
 import altaCarrera from "./alta_carrera";
+import lista_carreras from "./lista_carreras";
 import modificarCarrera from "./modificar_carrera";
 import eliminarCarrera from "./eliminar_carrera";
 import alumno from "./alumno";
@@ -25,6 +25,8 @@ import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
+
+import alta_carrera from "./alta_carrera";
 
 import Login from "./login";
 import Signup from "./signup";
@@ -202,23 +204,8 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <NavLink className={styles.links} to="/altaCarrera">
-                  Alta carrera
-                </NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/modificarCarrera">
-                  Modificar carrera
-                </NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/eliminarCarrera">
-                  Eliminar carrera
-                </NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink className={styles.links} to="/altaMateria">
-                  Alta materia
+                <NavLink className={styles.links} to="/lista_carreras">
+                  Carreras
                 </NavLink>
               </li>
               <li class="nav-item">
@@ -226,6 +213,7 @@ class Cabecera extends Component {
                   Alta materia
                 </NavLink>
               </li>
+            
             </ul>
           </div>
           {!this.state.session ? (
@@ -365,7 +353,8 @@ class Cabecera extends Component {
           }}
         />
 
-        <Route path="/altaCarrera" component={altaCarrera} />
+        <Route path="/lista_carreras" component={lista_carreras} />
+        <Route path="/alta_carrera" component={alta_carrera} />
         <Route path="/modificarCarrera" component={modificarCarrera} />
         <Route path="/eliminarCarrera" component={eliminarCarrera} />
         <Route path="/alumno" component={alumno} />
