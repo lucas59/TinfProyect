@@ -23,6 +23,8 @@ import eliminarCarrera from "./eliminar_carrera";
 import alumno from "./alumno";
 import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
+import docente from "./docente";
+
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
 
@@ -67,6 +69,10 @@ class Cabecera extends Component {
     alert("asdasd");
   };
 
+  enviarADocentes = () =>{
+
+  }
+
   closeModalPass = () => {
     this.setState({ modalPass: false });
   };
@@ -79,7 +85,7 @@ class Cabecera extends Component {
     this.setState({ modalPerfil: false });
   };
 
-  openModalPass = () => {
+  closeModalPass = () => {
     this.setState({ modalPass: true });
   };
 
@@ -211,6 +217,9 @@ class Cabecera extends Component {
               <li class="nav-item">
                 <NavLink className={styles.links} onClick={this.mostrarsession}>
                   Alta materia
+                </NavLink>
+                <NavLink className={styles.links} to="/docentes">
+                  Docentes
                 </NavLink>
               </li>
             
@@ -359,6 +368,7 @@ class Cabecera extends Component {
         <Route path="/eliminarCarrera" component={eliminarCarrera} />
         <Route path="/alumno" component={alumno} />
         <Route path="/altaMateria" component={altaMateria} />
+        <Route path="/docentes" component={docente} />
 
         <Route
           path="/registrarse"

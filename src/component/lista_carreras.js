@@ -6,6 +6,18 @@ import {
     Route,
     NavLink
 } from "react-router-dom";
+import {
+    DropdownButton,
+    Dropdown,
+    Button,
+    Col,
+    Modal,
+    Container,
+    Row,
+    InputGroup,
+    FormGroup,
+    FormControl
+  } from "react-bootstrap";
 class lista_carreras extends Component {
     constructor(props) {
         super(props);
