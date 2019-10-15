@@ -63,14 +63,14 @@ class Cabecera extends Component {
                   Carreras
                 </NavLink>
               </li>
-            
+
             </ul>
           </div>
           {!sessionStorage.getItem("session") ? (
             <button onClick={this.iniciarSession}>Ingresar</button>
           ) : (
-            <button onClick={this.cerrarSession}>Cerrar session</button>
-          )}
+              <button onClick={this.cerrarSession}>Cerrar session</button>
+            )}
         </nav>
 
         <Route
@@ -91,7 +91,6 @@ class Cabecera extends Component {
         <Route path="/eliminarCarrera" component={eliminarCarrera} />
         <Route path="/alumno" component={alumno} />
         <Route path="/altaMateria" component={altaMateria} />
-
         <Route
           path="/registrarse"
           component={() => {
@@ -102,7 +101,6 @@ class Cabecera extends Component {
             }
           }}
         />
-
         <Route
           path="/ingresar"
           component={() => {
