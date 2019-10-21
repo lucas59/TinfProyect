@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { server } from "../config/config";
 import Style from '../estilos/altaMateria.css';
+import {Redirect } from "react-router-dom";
+
 
 class altaMateria extends Component {
     constructor(props) {
@@ -16,40 +18,39 @@ class altaMateria extends Component {
     }
 
 
+    onChange = e => this.setState({ [e.target.name]: e.target.value });
+
     crearMateria = () => {
         const { nombre, creditos, semestre, objetivos, bibliografia, evaluacion } = this.state;
 
-        var params = {
-            "nombre": nombre,
-            "creditos": creditos,
-            "semestre": semestre,
-            "objetivos": objetivos,
-            "bibliografia": bibliografia,
-            "evaluacion": evaluacion
-        };
+        var data = new URLSearchParams();
+            data.append("nombre", nombre);
+            data.append("creditos", creditos);
+            data.append("semestre", semestre);
+            data.append("objetivo", objetivos);
+            data.append("bibliografia", bibliografia);
+            data.append("evaluacion", evaluacion);
+        console.log("se creo");
 
-
-        fetch(server.api + "altaMateria", {
+        fetch(server.api + "carrera/altaMateria", {
             method: "POST",
             credentials: "include",
             headers: {
-                "Content-type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify(params)
+            body: data
         })
             .then(function (res) {
                 console.log(res);
             })
             .catch(function (res) {
                 console.log("res", res);
+                return <Redirect to='/lista_carreras' />
             });
     };
 
-    handleChange = event => {
-        this.setState({ [event.target.id]: event.target.value });
-    };
-
     render() {
+        const { nombre, creditos, semestre, objetivos, bibliografia, evaluacion } = this.state;
         return (
             <div className="container">
                 <div>
@@ -65,7 +66,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Nombre:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1">
-                                        <input onChange={nombre => this.setState({ nombre })} className="form-control" type="text" name="Nombre" placeholder="Nombre..." style={{ marginLeft: 0, fontFamily: 'Roboto, sans-serif' }} />
+                                        <input value={nombre} onChange={this.onChange} className="form-control" type="text" name="nombre" placeholder="Nombre..." style={{ marginLeft: 0, fontFamily: 'Roboto, sans-serif' }} />
                                     </div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
@@ -73,7 +74,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Creditos:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1">
-                                        <input onChange={creditos => this.setState({ creditos })} className="form-control" type="text" name="Creditos" placeholder="Creditos..." style={{ marginLeft: 0, fontFamily: 'Roboto, sans-serif' }} />
+                                        <input value={creditos} onChange={this.onChange} className="form-control" type="text" name="creditos" placeholder="Creditos..." style={{ marginLeft: 0, fontFamily: 'Roboto, sans-serif' }} />
                                     </div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
@@ -81,7 +82,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Semestre:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1" style={{ fontFamily: 'Roboto, sans-serif' }}>
-                                        <select onChange={semestre => this.setState({ semestre })} className="form-control" name="Semestre">
+                                        <select value={semestre} onChange={this.onChange} className="form-control" name="semestre">
                                             <option value={1}>Primer Semestre</option>
                                             <option value={2}>Segundo Semestre</option>
                                             <option value={3}>Tercer Semestre</option>
@@ -96,7 +97,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Objetivos:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1">
-                                        <textarea onChange={objetivo => this.setState({ objetivo })} className="form-control" name="Objetivo" rows={15} defaultValue={""} />
+                                        <textarea value={objetivos} onChange={this.onChange} className="form-control" name="objetivos" rows={15} />
                                     </div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
@@ -104,7 +105,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Bibliografía:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1">
-                                        <textarea onChange={bibliografia => this.setState({ bibliografia })} className="form-control" rows={15} name="bibliografia" placeholder="Bibliografía..." defaultValue={""} />
+                                        <textarea value={bibliografia} onChange={this.onChange} className="form-control" rows={15} name="bibliografia" placeholder="Bibliografía..." />
                                     </div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
@@ -112,7 +113,7 @@ class altaMateria extends Component {
                                         <p style={{ marginLeft: '2%', fontFamily: 'Roboto, sans-serif', fontSize: 24 }}><strong>Evaluación:</strong></p>
                                     </div>
                                     <div className="col-md-10 offset-md-1">
-                                        <textarea onChange={evaluacion => this.setState({ evaluacion })} className="form-control" name="Evaluacion" placeholder="Evaluación..." style={{ fontFamily: 'Roboto, sans-serif' }} defaultValue={""} />
+                                        <textarea value={evaluacion} onChange={this.onChange} className="form-control" name="evaluacion" placeholder="Evaluación..." style={{ fontFamily: 'Roboto, sans-serif' }}  />
                                     </div>
                                 </div>
                                 <div className="form-row" style={{ marginRight: 0, marginLeft: 0, paddingTop: 24 }}>
