@@ -383,7 +383,6 @@ class Cabecera extends Component {
             }
           }}
         />
-
         <Route
           path="/ingresar"
           component={() => {

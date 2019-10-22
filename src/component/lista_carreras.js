@@ -25,6 +25,7 @@ class lista_carreras extends Component {
             lista_carrera: "",
             lista: ""
         }
+
     };
 
     promesa = async () => {
@@ -41,16 +42,43 @@ class lista_carreras extends Component {
         });
     };
 
+    promesa_eliminar = async (id) => {
+        return new Promise(function (resolve, reject) {
+            var data = new URLSearchParams();
+            data.append("id", id);
+            fetch(server.api + 'carrera/EliminarCarrera', {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: data
+            })
+                .then(function (res) {
+                    return res;
+                })
+                .then(async data => {
+                    resolve(data);
+                })
+        });
+    };
+
+    eliminar_id = (id) => {
+        this.promesa_eliminar(id).then(data => {
+            console.log(data);
+        });
+    }
+
     Listar = () => {
         this.promesa().then(data => {
             if (data.mensaje.length > 0) {
                 var ret = data.mensaje.map((data, i) => {
-                    console.log(data._id);
                     return (
                         <tr id={i}>
                             <td>{data.nombre_carrera}</td>
                             <td>{data.descripcion_carrera}</td>
-                            <td><button className="btn btn-info">Eliminar</button> <button className="btn btn-info">Modificar</button></td>
+                            <td><button onClick={() => this.eliminar_id(data._id)} className="btn btn-info">Eliminar</button>
+                                <button className="btn btn-info">Modificar</button></td>
                         </tr>
                     )
                 });
@@ -69,9 +97,9 @@ class lista_carreras extends Component {
     }
 
     render() {
+        this.Listar();
         return (
             <>
-
                 <div className={styles.tabla_carreras}>
                     <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
                     <NavLink style={{ fontSize: 20 }} className={styles.links} to="/alta_carrera">
@@ -85,7 +113,7 @@ class lista_carreras extends Component {
                                 <th>Opciones</th>
                             </tr>
                         </thead>
-                        <tbody>{this.state.lista}</tbody>
+                        <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
                     </table>
                 </div>
             </>

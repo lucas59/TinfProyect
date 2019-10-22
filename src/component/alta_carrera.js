@@ -3,6 +3,9 @@ import Cabecera from './navigation'
 import template from '../vistas/alta_carrera';
 import styles from '../estilos/alta_carrera.module.css';
 import { server } from "../config/config";
+import {
+    Redirect
+  } from "react-router-dom";
 
 class alta_carrera extends Component {
 
@@ -44,6 +47,7 @@ class alta_carrera extends Component {
             })
             .catch(function (res) {
                 console.log("res", res);
+                return <Redirect to='/lista_carreras' />
             });
 
     };
@@ -51,7 +55,7 @@ class alta_carrera extends Component {
     render() {
         const { nombre, perfil_egr, perfil_ing, desc, materias, cont } = this.state;
         return (
-            < div style='form-group' >
+            <div className={styles.form}>
                 <p>Nombre</p><input
                     className="form-control"
                     value={nombre}
