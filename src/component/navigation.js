@@ -80,13 +80,16 @@ class Cabecera extends Component {
   openModalPerfil = () => {
     this.setState({ modalPerfil: true });
   };
+  openModalPass = () =>{
+    this.setState({modalPass:true});
+  }
 
   closeModalPerfil = () => {
     this.setState({ modalPerfil: false });
   };
 
   closeModalPass = () => {
-    this.setState({ modalPass: true });
+    this.setState({ modalPass: false });
   };
 
   guardarnuevoDatos = () => {
