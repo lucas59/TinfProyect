@@ -1,9 +1,5 @@
 import React, { Component, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  NavLink
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import {
   DropdownButton,
   Dropdown,
@@ -24,6 +20,8 @@ import alumno from "./alumno";
 import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
 import docente from "./docente";
+import lista_materias from "./lista_materias";
+
 
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
@@ -55,6 +53,11 @@ class Cabecera extends Component {
     }
   }
 
+  componentDidMount() {
+    const { session } = this.state;
+    console.log(session);
+  }
+
   cerrarSession = () => {
     sessionStorage.removeItem("session");
     window.location.reload();
@@ -69,9 +72,7 @@ class Cabecera extends Component {
     alert("asdasd");
   };
 
-  enviarADocentes = () =>{
-
-  }
+  enviarADocentes = () => {};
 
   closeModalPass = () => {
     this.setState({ modalPass: false });
@@ -80,9 +81,9 @@ class Cabecera extends Component {
   openModalPerfil = () => {
     this.setState({ modalPerfil: true });
   };
-  openModalPass = () =>{
-    this.setState({modalPass:true});
-  }
+  openModalPass = () => {
+    this.setState({ modalPass: true });
+  };
 
   closeModalPerfil = () => {
     this.setState({ modalPerfil: false });
@@ -133,7 +134,7 @@ class Cabecera extends Component {
         console.log(data);
         if (data.retorno == true) {
           // window.location.reload();
-          console.log("actualizadoss")
+          console.log("actualizadoss");
           sessionStorage.setItem("session", JSON.stringify(data.user));
           this.state.session = JSON.parse(sessionStorage.getItem("session"));
           this.closeModalPerfil();
@@ -213,19 +214,20 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <NavLink className={styles.links} to="/lista_carreras">
-                  Carreras
-                </NavLink>
+                { session && session.tipo == 2 && (
+                  <NavLink className={styles.links} to="/lista_carreras">
+                    Carreras
+                  </NavLink>
+                )}
               </li>
               <li class="nav-item">
-                <NavLink className={styles.links} onClick={this.mostrarsession}>
-                  Alta materia
+                <NavLink className={styles.links} to="/lista_materias">
+                  Materias
                 </NavLink>
                 <NavLink className={styles.links} to="/docentes">
                   Docentes
                 </NavLink>
               </li>
-            
             </ul>
           </div>
           {!this.state.session ? (
@@ -244,7 +246,9 @@ class Cabecera extends Component {
               </Dropdown.Item>
               <Dropdown.Divider />
               <Col>
-                <Button onClick={this.cerrarSession} variant="outline-danger">Cerrar sesión</Button>
+                <Button onClick={this.cerrarSession} variant="outline-danger">
+                  Cerrar sesión
+                </Button>
               </Col>
             </DropdownButton>
           )}
@@ -372,6 +376,7 @@ class Cabecera extends Component {
         <Route path="/alumno" component={alumno} />
         <Route path="/altaMateria" component={altaMateria} />
         <Route path="/docentes" component={docente} />
+        <Route path="/lista_materias" component={lista_materias} />
 
         <Route
           path="/registrarse"
