@@ -18,15 +18,55 @@ import {
     FormGroup,
     FormControl
   } from "react-bootstrap";
-class lista_carreras extends Component {
+class chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
             lista_carrera: "",
-            lista: ""
+            lista: "",
+            session: sessionStorage.getItem("session")
         }
 
     };
+
+    promesa = async () => {
+        const {session} = this.state;
+            return new Promise(function (resolve, reject) {
+                fetch(server.api + 'materia/mensajes', {
+                    method: "GET"
+                })
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(async data => {
+                        resolve(data);
+                    })
+            });   
+    };
+
+    Listar = () => {
+        this.promesa().then(data => {
+            if (data.length > 0) {
+                var ret = data.mensaje.map((data, i) => {
+                    return (
+                        <tr id={i}>
+                            <td>{data.nombre_carrera}</td>
+                            <td>{data.descripcion_carrera}</td>
+                            <td><button onClick={() => this.eliminar_id(data._id)} className="btn btn-info">Eliminar</button>
+                                <button className="btn btn-info">Modificar</button></td>
+                        </tr>
+                    )
+                });
+                this.setState({ lista: ret });
+            }
+            else {
+                return (
+                    <div>Lista vacia</div>
+                )
+            }
+        });
+    }
+
     render() {
         this.Listar();
         return (
@@ -53,4 +93,4 @@ class lista_carreras extends Component {
     }
 }
 
-export default lista_carreras;
+export default chat;

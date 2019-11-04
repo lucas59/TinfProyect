@@ -21,7 +21,7 @@ import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
 import docente from "./docente";
 import lista_materias from "./lista_materias";
-
+import chat from './chat';
 
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
@@ -377,6 +377,7 @@ class Cabecera extends Component {
         <Route path="/altaMateria" component={altaMateria} />
         <Route path="/docentes" component={docente} />
         <Route path="/lista_materias" component={lista_materias} />
+        <Route path="/chat" component={chat} />
 
         <Route
           path="/registrarse"
