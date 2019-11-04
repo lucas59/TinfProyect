@@ -24,6 +24,7 @@ import alumno from "./alumno";
 import Inicio from "./inicio";
 import altaMateria from "./altaMateria";
 import docente from "./docente";
+import chat from "./chat";
 
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
@@ -369,6 +370,7 @@ class Cabecera extends Component {
         <Route path="/alumno" component={alumno} />
         <Route path="/altaMateria" component={altaMateria} />
         <Route path="/docentes" component={docente} />
+        <Route path="/chat" component={chat}/>
 
         <Route
           path="/registrarse"

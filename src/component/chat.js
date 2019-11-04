@@ -1,56 +1,24 @@
-import React, { Component, View, Text } from 'react';
-import styles from '../estilos/lista_carreras.module.css';
-import { server } from "../config/config";
-import {
-    BrowserRouter as Router,
-    Route,
-    NavLink
-} from "react-router-dom";
-import {
-    DropdownButton,
-    Dropdown,
-    Button,
-    Col,
-    Modal,
-    Container,
-    Row,
-    InputGroup,
-    FormGroup,
-    FormControl
-  } from "react-bootstrap";
-class lista_carreras extends Component {
+import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:3050');
+class chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lista_carrera: "",
-            lista: ""
         }
-
     };
+
+
     render() {
-        this.Listar();
+        socket.emit('click', 1000);
+        console.log("prueba");
         return (
             <>
-                <div className={styles.tabla_carreras}>
-                    <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
-                    <NavLink style={{ fontSize: 20 }} className={styles.links} to="/alta_carrera">
-                        Agregar carrera
-                </NavLink>
-                    <table className='table'>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
-                    </table>
-                </div>
+               
             </>
         )
 
     }
 }
 
-export default lista_carreras;
+export default chat;
