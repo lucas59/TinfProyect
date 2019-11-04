@@ -156,7 +156,7 @@ class docente extends Component {
                   );
                 }}
               >
-                Modificar
+               Modificar
               </Button>
             </tr> /*
                 <th>Cédula</th>

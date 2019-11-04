@@ -79,7 +79,7 @@ class lista_carreras extends Component {
                             <td>{data.nombre_carrera}</td>
                             <td>{data.descripcion_carrera}</td>
                             <td><button onClick={() => this.eliminar_id(data._id)} className="btn btn-info">Eliminar</button>
-                                <button className="btn btn-info">Modificar</button></td>
+                                </td>
                         </tr>
                     )
                 });
