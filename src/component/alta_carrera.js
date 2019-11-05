@@ -6,7 +6,6 @@ import { server } from "../config/config";
 import { Redirect } from "react-router-dom";
 
 class alta_carrera extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
