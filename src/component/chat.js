@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component } from 'react';
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3050');
+import server from '../config/config';
+const socket = openSocket(server.api);
 class chat extends Component {
     constructor(props) {
         super(props);
@@ -9,6 +10,7 @@ class chat extends Component {
     };
 
     promesa = async () => {
+
         const {session} = this.state;
             return new Promise(function (resolve, reject) {
                 fetch(server.api + 'materia/mensajes', {
