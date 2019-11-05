@@ -14,8 +14,7 @@ class alta_carrera extends Component {
             desc: "",
             perfil_ing: "",
             perfil_egr: "",
-            cont: "",
-            materias: ""
+            cont: ""
         };
     }
 
@@ -23,14 +22,13 @@ class alta_carrera extends Component {
 
     Alta_carrera = () => {
         console.log("entra");
-        const { nombre, desc, perfil_egr, perfil_ing, cont, materias } = this.state;
+        const { nombre, desc, perfil_egr, perfil_ing, cont} = this.state;
         var data = new URLSearchParams();
         data.append("nombre_carrera", nombre);
         data.append("descripcion_carrera", desc);
         data.append("perfilingreso_carrera", perfil_ing);
         data.append("perfilegreso_carrera", perfil_egr);
         data.append("contactos_carrera", cont);
-        data.append("materias_carrera", materias);
         console.log(JSON.stringify(data));
         fetch(server.api + 'carrera/altaCarrera', {
             method: "POST",
@@ -57,7 +55,7 @@ class alta_carrera extends Component {
     };
 
     render() {
-        const { nombre, perfil_egr, perfil_ing, desc, materias, cont } = this.state;
+        const { nombre, perfil_egr, perfil_ing, desc, cont } = this.state;
         return (
             <div className={styles.form}>
                 <p>Nombre</p><input
@@ -95,17 +93,6 @@ class alta_carrera extends Component {
                     placeholder="Contactos"
                     onChange={this.onChange}
                     type="text" />
-                <p>Materias</p>
-                <select className="form-control"
-                    value={materias}
-                    name="materias"
-                    placeholder="MAterias"
-                    onChange={this.onChange}
-                    type="text">
-                    <option value=".Net">.Net</option>
-                    <option value="Probabilidad">Probabilidad y estadisticas</option>
-                    <option value="sistemas de control">Sistemas de control</option>
-                </select>
                 <button
                     onClick={this.Alta_carrera}
                     className="btn btn-primary btn-block"
