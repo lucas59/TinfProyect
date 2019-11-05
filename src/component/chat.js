@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
+import server from '../config/config';
 class chat extends Component {
   constructor() {
     super();
@@ -8,7 +9,7 @@ class chat extends Component {
       endpoint: "http://localhost:3050"
     };
   }
-  
+
   promesa = async () => {
     const { session } = this.state;
     return new Promise(function(resolve, reject) {
