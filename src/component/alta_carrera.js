@@ -3,9 +3,7 @@ import Cabecera from './navigation'
 import template from '../vistas/alta_carrera';
 import styles from '../estilos/alta_carrera.module.css';
 import { server } from "../config/config";
-import {
-    Redirect
-  } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 class alta_carrera extends Component {
 
@@ -43,11 +41,17 @@ class alta_carrera extends Component {
             body: data
         })
             .then(function (res) {
-                console.log("carrera", res);
+                return res.json();
+            })
+            .then(data => {
+                console.log("id de la respuesta:", data.respuesta);
+                sessionStorage.setItem("idCarrera", data.respuesta);
+                //return <Redirect to='/altaMateria' />
+                window.location.replace("http://localhost:3000/altaMateria");
             })
             .catch(function (res) {
                 console.log("res", res);
-                return <Redirect to='/lista_carreras' />
+                return <Redirect to='/alta_carrera' />
             });
 
     };
