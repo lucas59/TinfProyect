@@ -6,6 +6,7 @@ import {
     Route,
     NavLink
 } from "react-router-dom";
+
 import {
     DropdownButton,
     Dropdown,
@@ -18,7 +19,8 @@ import {
     FormGroup,
     FormControl
   } from "react-bootstrap";
-class lista_carreras extends Component {
+
+class lista_materias extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,17 +32,34 @@ class lista_carreras extends Component {
     };
 
     promesa = async () => {
-        return new Promise(function (resolve, reject) {
-            fetch(server.api + 'carrera/listarCarreras', {
-                method: "GET"
-            })
-                .then(res => {
-                    return res.json();
+        const {session} = this.state;
+        if (session == 2) {
+            return new Promise(function (resolve, reject) {
+                fetch(server.api + 'carrera/listarMaterias', {
+                    method: "GET"
                 })
-                .then(async data => {
-                    resolve(data);
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(async data => {
+                        resolve(data);
+                    })
+            });   
+        } else {
+            return new Promise(function (resolve, reject) {
+                fetch(server.api + 'carrera/listarMaterias?user='+session._id, {
+                    method: "GET",
+
                 })
-        });
+                    .then(res => {
+                        return res.json();
+                    })
+                    .then(async data => {
+                        resolve(data);
+                    })
+            });
+        }
+
     };
 
     promesa_eliminar = async (id) => {
@@ -72,14 +91,14 @@ class lista_carreras extends Component {
 
     Listar = () => {
         this.promesa().then(data => {
-            if (data.mensaje.length > 0) {
+            if (data.length > 0) {
                 var ret = data.mensaje.map((data, i) => {
                     return (
                         <tr id={i}>
                             <td>{data.nombre_carrera}</td>
                             <td>{data.descripcion_carrera}</td>
                             <td><button onClick={() => this.eliminar_id(data._id)} className="btn btn-info">Eliminar</button>
-                                </td>
+                                <button className="btn btn-info">Modificar</button></td>
                         </tr>
                     )
                 });
@@ -98,13 +117,12 @@ class lista_carreras extends Component {
     }
 
     render() {
-        this.Listar();
         return (
             <>
                 <div className={styles.tabla_carreras}>
-                    <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
+                    <h1 className={styles.titulo_carreras}>Lista de materias</h1>
                     <NavLink style={{ fontSize: 20 }} className={styles.links} to="/alta_carrera">
-                        Agregar carrera
+                        Vincularme a materia
                 </NavLink>
                     <table className='table'>
                         <thead>
@@ -123,4 +141,4 @@ class lista_carreras extends Component {
     }
 }
 
-export default lista_carreras;
+export default lista_materias;
