@@ -16,18 +16,15 @@ import altaCarrera from "./alta_carrera";
 import lista_carreras from "./lista_carreras";
 import modificarCarrera from "./modificar_carrera";
 import eliminarCarrera from "./eliminar_carrera";
-import alumno from "./alumno";
+import Alumno from "./alumno";
 import Inicio from "./inicio";
-import altaMateria from "./altaMateria";
-import docente from "./docente";
-import lista_materias from "./lista_materias";
+import AltaMateria from "./altaMateria";
+import Docente from "./docente";
+import ListaMaterias from './lista_materias';
 import chat from './chat';
-
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
-
 import alta_carrera from "./alta_carrera";
-
 import Login from "./login";
 import Signup from "./signup";
 
@@ -139,7 +136,7 @@ class Cabecera extends Component {
           this.state.session = JSON.parse(sessionStorage.getItem("session"));
           this.closeModalPerfil();
         } else {
-          alert(data.mensaje);
+          Notification.error(data.mensaje, "Error");
         }
       })
       .catch(function(res) {
@@ -183,7 +180,7 @@ class Cabecera extends Component {
           sessionStorage.removeItem("session");
           window.location.reload();
         } else {
-          alert(data.mensaje);
+          Notification.error(data.mensaje, "Error");
         }
       })
       .catch(function(res) {
@@ -369,14 +366,71 @@ class Cabecera extends Component {
           }}
         />
 
-        <Route path="/lista_carreras" component={lista_carreras} />
-        <Route path="/alta_carrera" component={alta_carrera} />
-        <Route path="/modificarCarrera" component={modificarCarrera} />
-        <Route path="/eliminarCarrera" component={eliminarCarrera} />
-        <Route path="/alumno" component={alumno} />
-        <Route path="/altaMateria" component={altaMateria} />
-        <Route path="/docentes" component={docente} />
-        <Route path="/lista_materias" component={lista_materias} />
+        <Route path="/lista_carreras" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <lista_carreras/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/alta_carrera" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <alta_carrera/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/modificarCarrera" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <modificarCarrera/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/eliminarCarrera" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <eliminarCarrera/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/alumno" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <Alumno/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/altaMateria" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <AltaMateria/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+
+        <Route path="/docentes" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <Docente/>
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/lista_materias" component={ () =>{
+           if (sessionStorage.getItem("session")) {
+            return <ListaMaterias/>
+          } else {
+            return <Login />;
+          }
+        }} />
+        
        
         <Route
           path="/registrarse"

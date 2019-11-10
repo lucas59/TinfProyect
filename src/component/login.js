@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { server } from "../config/config";
-
 import stylesSignup from "../estilos/signup.css"; // Tell Webpack that Button.js uses these styles
-
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +11,6 @@ class Login extends Component {
       contraseña: ""
     };
   }
-
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -40,8 +39,10 @@ class Login extends Component {
         if (data.retorno == true) {
           sessionStorage.setItem("session", JSON.stringify(data.user));
           window.location.reload();
+          NotificationManager.success("Bienvenido", 'Exito');
         } else {
-          alert(data.mensaje);
+          console.log("error");
+          NotificationManager.error(data.mensaje, 'Error');
         }
       })
       .catch(function(res) {
@@ -53,13 +54,20 @@ class Login extends Component {
     this.setState({ [event.target.id]: event.target.value });
   };
 
+  
+
   render() {
     const { cedula, contraseña } = this.state;
     return (
+
+
       <div className="register-photo">
+
         <div className="form-container">
           <div className="image-holder" />
           <div className="form">
+          <NotificationContainer/>
+
             <h2 className="text-center">
               <strong>Bienvenido</strong>.
             </h2>
@@ -97,6 +105,7 @@ class Login extends Component {
             </a>
           </div>
         </div>
+
       </div>
     );
   }
