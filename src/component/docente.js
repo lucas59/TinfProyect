@@ -32,12 +32,13 @@ class Docente extends Component {
       contraseña2: "",
       web: "",
       modalUpdate: false,
-      modalBajaDocente: false
+      modalBajaDocente: false,
+      listaMaterias: ""
     };
   }
 
   promesa = async () => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       fetch(server.api + "docentes/listar", {
         method: "GET"
       })
@@ -96,7 +97,7 @@ class Docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -109,10 +110,42 @@ class Docente extends Component {
         }
 
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
+
+  promesa = async () => {
+    return new Promise(function (resolve, reject) {
+      fetch(server.api + 'carrera/listarMaterias', {
+        method: "GET"
+      })
+
+        .then(res => {
+          return res.json();
+        })
+        .then(async data => {
+          resolve(data);
+        })
+    });
+  };
+
+  ListarMateria = () => {
+    this.promesa().then(data => {
+      if (data.retorno.length > 0) {
+        var ret = data.retorno.map((data, i) => {
+          return (
+            <Dropdown.Item onClick={this.onChange}>{data.nombre}</Dropdown.Item>
+          )
+        });
+        this.setState({ lista: ret });
+      } else {
+        return (
+          <div>Lista vacia</div>
+        )
+      }
+    });
+  }
 
   abrirModalModificar = (cedula, nombre, apellido, email, web, celular) => {
     this.setState({ modalUpdate: true });
@@ -152,7 +185,7 @@ class Docente extends Component {
                   );
                 }}
               >
-               Modificar
+                Modificar
               </Button>
             </tr> /*
                 <th>Cédula</th>
@@ -217,7 +250,7 @@ class Docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -230,7 +263,7 @@ class Docente extends Component {
           this.setState({ modalUpdate: false });
         } 
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
@@ -267,7 +300,7 @@ class Docente extends Component {
         </div>
         <Modal show={modalAdd} onHide={this.cloaseModalAdd} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Cambio de contraseña</Modal.Title>
+            <Modal.Title>Agregar docente</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <InputGroup className="mb-1">
@@ -346,6 +379,9 @@ class Docente extends Component {
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
+            <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">
+              {this.state.listaMaterias ? this.state.listaMaterias : "cargando"}
+            </DropdownButton>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.cloaseModalAdd}>
