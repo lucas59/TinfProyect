@@ -2,6 +2,7 @@ import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+
 import {
   DropdownButton,
   Dropdown,
@@ -14,6 +15,7 @@ import {
   FormGroup,
   FormControl
 } from "react-bootstrap";
+
 class docente extends Component {
   constructor(props) {
     super(props);
@@ -29,12 +31,13 @@ class docente extends Component {
       contraseña2: "",
       web: "",
       modalUpdate: false,
-      modalBajaDocente: false
+      modalBajaDocente: false,
+      listaMaterias: ""
     };
   }
 
   promesa = async () => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       fetch(server.api + "docentes/listar", {
         method: "GET"
       })
@@ -93,7 +96,7 @@ class docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -113,10 +116,42 @@ class docente extends Component {
             alert(data.mensaje);
           }*/
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
+
+  promesa = async () => {
+    return new Promise(function (resolve, reject) {
+      fetch(server.api + 'carrera/listarMaterias', {
+        method: "GET"
+      })
+
+        .then(res => {
+          return res.json();
+        })
+        .then(async data => {
+          resolve(data);
+        })
+    });
+  };
+
+  ListarMateria = () => {
+    this.promesa().then(data => {
+      if (data.retorno.length > 0) {
+        var ret = data.retorno.map((data, i) => {
+          return (
+            <Dropdown.Item onClick={this.onChange}>{data.nombre}</Dropdown.Item>
+          )
+        });
+        this.setState({ lista: ret });
+      } else {
+        return (
+          <div>Lista vacia</div>
+        )
+      }
+    });
+  }
 
   abrirModalModificar = (cedula, nombre, apellido, email, web, celular) => {
     this.setState({ modalUpdate: true });
@@ -156,7 +191,7 @@ class docente extends Component {
                   );
                 }}
               >
-               Modificar
+                Modificar
               </Button>
             </tr> /*
                 <th>Cédula</th>
@@ -221,7 +256,7 @@ class docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -241,7 +276,7 @@ class docente extends Component {
               alert(data.mensaje);
             }*/
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
@@ -276,7 +311,7 @@ class docente extends Component {
         </div>
         <Modal show={modalAdd} onHide={this.cloaseModalAdd} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Cambio de contraseña</Modal.Title>
+            <Modal.Title>Agregar docente</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <InputGroup className="mb-1">
@@ -355,6 +390,9 @@ class docente extends Component {
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
+            <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">
+              {this.state.listaMaterias ? this.state.listaMaterias : "cargando"}
+            </DropdownButton>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.cloaseModalAdd}>

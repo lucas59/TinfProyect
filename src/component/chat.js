@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3050');
+import socketIOClient from 'socket.io-client';
+import server from '../config/config';
 
 class chat extends Component {
   constructor() {

@@ -51,11 +51,6 @@ export default class tablaMaterias extends Component {
         });
     }
 
-    agregarDocente = (id) => {
-        sessionStorage.setItem("IdMateria",id);
-        return <Redirect to="/docente"/>
-    }
-
     Listar = () => {
         this.promesa().then(data => {
             if (data.mensaje.length > 0) {
@@ -65,7 +60,6 @@ export default class tablaMaterias extends Component {
                             <td>{data.nombreMateria}</td>
                             <td>{data.semestreMateria}</td>
                             <td>{data.creditosMateria}</td>
-                            <td><button onclick={() => this.agregarDocente(data._id)}>Agregar Docente</button></td>
                             <td><button onclick={() => this.eliminar_id(data._id)} >Eliminar</button></td>
                         </tr>
                     )
@@ -85,26 +79,23 @@ export default class tablaMaterias extends Component {
 
     render() {
         return (
-            <>
-                <div>
-                    <h1>Lista materias</h1>
-                    <NavLink to="/altaMateria">Agregar Materia</NavLink>
-                    <table className="table table-bordered table-hover">
-                        <thead className="bill-header cs">
-                            <tr>
-                                <th id="trs-hd" className="col-lg-1">Nombre</th>
-                                <th id="trs-hd" className="col-lg-2">Semestre</th>
-                                <th id="trs-hd" className="col-lg-3">Creditos</th>
-                                <th id="trs-hd" className="col-lg-2">Asignar Docente</th>
-                                <th id="trs-hd" className="col-lg-2">Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.lista ? this.state.lista : "cargando"}
-                        </tbody>
-                    </table>
-                </div>
-            </>
+            <div>
+                <h1>Lista materias</h1>
+                <NavLink to="/altaMateria">Agregar Materia</NavLink>
+                <table className="table table-bordered table-hover">
+                    <thead className="bill-header cs">
+                        <tr>
+                            <th id="trs-hd" className="col-lg-1">Nombre</th>
+                            <th id="trs-hd" className="col-lg-2">Semestre</th>
+                            <th id="trs-hd" className="col-lg-3">Creditos</th>
+                            <th id="trs-hd" className="col-lg-2">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.lista ? this.state.lista : "cargando"}
+                    </tbody>
+                </table>
+            </div>
         );
     }
 };
