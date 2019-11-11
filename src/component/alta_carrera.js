@@ -5,7 +5,7 @@ import styles from '../estilos/alta_carrera.module.css';
 import { server } from "../config/config";
 import { Redirect } from "react-router-dom";
 
-class alta_carrera extends Component {
+class Alta_carrera extends Component {
 
     constructor(props) {
         super(props);
@@ -119,4 +119,4 @@ class alta_carrera extends Component {
 
 }
 
-export default alta_carrera;
+export default Alta_carrera;

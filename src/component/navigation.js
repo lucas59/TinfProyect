@@ -24,7 +24,7 @@ import ListaMaterias from './lista_materias';
 import chat from './chat';
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
-import alta_carrera from "./alta_carrera";
+import Alta_carrera from "./alta_carrera";
 import Login from "./login";
 import Signup from "./signup";
 
@@ -190,7 +190,7 @@ class Cabecera extends Component {
 
   render() {
     const { session, nuevocambios } = this.state;
-
+    console.log("session", session);
     return (
       <Router>
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -211,7 +211,7 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                { session && session.tipo == 2 && (
+                { session && session.tipo == 3 && (
                   <NavLink className={styles.links} to="/lista_carreras">
                     Carreras
                   </NavLink>
@@ -376,7 +376,7 @@ class Cabecera extends Component {
 
         <Route path="/alta_carrera" component={ () =>{
            if (sessionStorage.getItem("session")) {
-            return <alta_carrera/>
+            return <Alta_carrera/>
           } else {
             return <Login />;
           }
