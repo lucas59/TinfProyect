@@ -14,7 +14,10 @@ import {
   FormGroup,
   FormControl
 } from "react-bootstrap";
-class docente extends Component {
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
+class Docente extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,12 +32,13 @@ class docente extends Component {
       contraseña2: "",
       web: "",
       modalUpdate: false,
-      modalBajaDocente: false
+      modalBajaDocente: false,
+      listaMaterias: ""
     };
   }
 
   promesa = async () => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       fetch(server.api + "docentes/listar", {
         method: "GET"
       })
@@ -72,7 +76,7 @@ class docente extends Component {
     }
 
     if (contraseña != contraseña2) {
-      alert("Las contraseñas no coinciden");
+      NotificationManager.error("Las contraseñas no coinciden", "Error");
       return;
     }
 
@@ -93,30 +97,55 @@ class docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
-        alert(data.retorno);
-        console.log(data);
-
+       
         if (data.retorno == false) {
-          alert(data.mensaje);
+          NotificationManager.error(data.mensaje, "Error");
         } else {
-          alert("Se registro correctamente el el docente.");
+          NotificationManager.success("Se regitro correctamente el docente", "Exito");
           this.Listar();
         }
 
-        /*  if (data.retorno == true) {
-            
-          } else {
-            alert(data.mensaje);
-          }*/
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
+
+  promesa = async () => {
+    return new Promise(function (resolve, reject) {
+      fetch(server.api + 'carrera/listarMaterias', {
+        method: "GET"
+      })
+
+        .then(res => {
+          return res.json();
+        })
+        .then(async data => {
+          resolve(data);
+        })
+    });
+  };
+
+  ListarMateria = () => {
+    this.promesa().then(data => {
+      if (data.retorno.length > 0) {
+        var ret = data.retorno.map((data, i) => {
+          return (
+            <Dropdown.Item onClick={this.onChange}>{data.nombre}</Dropdown.Item>
+          )
+        });
+        this.setState({ lista: ret });
+      } else {
+        return (
+          <div>Lista vacia</div>
+        )
+      }
+    });
+  }
 
   abrirModalModificar = (cedula, nombre, apellido, email, web, celular) => {
     this.setState({ modalUpdate: true });
@@ -156,7 +185,7 @@ class docente extends Component {
                   );
                 }}
               >
-               Modificar
+                Modificar
               </Button>
             </tr> /*
                 <th>Cédula</th>
@@ -221,27 +250,20 @@ class docente extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
-        alert(data.retorno);
 
         if (data.retorno == false) {
-          alert(data.mensaje);
+          NotificationManager.error(data.mensaje,"Error");
         } else {
-          alert("Se registro correctamente el el docente.");
+          NotificationManager.success("Se registro correctamente el docente", "Exito");
           this.Listar();
           this.setState({ modalUpdate: false });
-        }
-
-        /*  if (data.retorno == true) {
-              
-            } else {
-              alert(data.mensaje);
-            }*/
+        } 
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
@@ -251,6 +273,8 @@ class docente extends Component {
     return (
       <>
         <div className={styles.tabla_carreras}>
+        <NotificationContainer/>
+
           <h1 className={styles.titulo_carreras}>Lista de docentes</h1>
           <NavLink
             style={{ fontSize: 20 }}
@@ -276,7 +300,7 @@ class docente extends Component {
         </div>
         <Modal show={modalAdd} onHide={this.cloaseModalAdd} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Cambio de contraseña</Modal.Title>
+            <Modal.Title>Agregar docente</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <InputGroup className="mb-1">
@@ -355,6 +379,9 @@ class docente extends Component {
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
+            <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">
+              {this.state.listaMaterias ? this.state.listaMaterias : "cargando"}
+            </DropdownButton>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.cloaseModalAdd}>
@@ -447,4 +474,4 @@ class docente extends Component {
   }
 }
 
-export default docente;
+export default Docente;

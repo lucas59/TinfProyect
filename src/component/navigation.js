@@ -16,18 +16,15 @@ import altaCarrera from "./alta_carrera";
 import lista_carreras from "./lista_carreras";
 import modificarCarrera from "./modificar_carrera";
 import eliminarCarrera from "./eliminar_carrera";
-import alumno from "./alumno";
+import Alumno from "./alumno";
 import Inicio from "./inicio";
-import altaMateria from "./altaMateria";
-import docente from "./docente";
-import lista_materias from "./lista_materias";
+import AltaMateria from "./altaMateria";
+import Docente from "./docente";
+import ListaMaterias from './lista_materias';
 import chat from './chat';
-
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
-
-import alta_carrera from "./alta_carrera";
-
+import Alta_carrera from "./alta_carrera";
 import Login from "./login";
 import Signup from "./signup";
 
@@ -72,7 +69,7 @@ class Cabecera extends Component {
     alert("asdasd");
   };
 
-  enviarADocentes = () => {};
+  enviarADocentes = () => { };
 
   closeModalPass = () => {
     this.setState({ modalPass: false });
@@ -127,7 +124,7 @@ class Cabecera extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -139,10 +136,10 @@ class Cabecera extends Component {
           this.state.session = JSON.parse(sessionStorage.getItem("session"));
           this.closeModalPerfil();
         } else {
-          alert(data.mensaje);
+          Notification.error(data.mensaje, "Error");
         }
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
@@ -174,7 +171,7 @@ class Cabecera extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
@@ -183,17 +180,17 @@ class Cabecera extends Component {
           sessionStorage.removeItem("session");
           window.location.reload();
         } else {
-          alert(data.mensaje);
+          Notification.error(data.mensaje, "Error");
         }
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
       });
   };
 
   render() {
     const { session, nuevocambios } = this.state;
-
+    console.log("session", session);
     return (
       <Router>
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -214,7 +211,7 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                { session && session.tipo == 2 && (
+                {session && session.tipo == 3 && (
                   <NavLink className={styles.links} to="/lista_carreras">
                     Carreras
                   </NavLink>
@@ -233,25 +230,25 @@ class Cabecera extends Component {
           {!this.state.session ? (
             <button onClick={this.iniciarSession}>Ingresar</button>
           ) : (
-            <DropdownButton
-              drop="left"
-              id="dropdown-basic-button"
-              title={session.nombre + " " + session.apellido}
-            >
-              <Dropdown.Item onClick={this.openModalPerfil}>
-                Mi cuenta
+              <DropdownButton
+                drop="left"
+                id="dropdown-basic-button"
+                title={session.nombre + " " + session.apellido}
+              >
+                <Dropdown.Item onClick={this.openModalPerfil}>
+                  Mi cuenta
               </Dropdown.Item>
-              <Dropdown.Item onClick={this.openModalPass}>
-                Modificar contraseña
+                <Dropdown.Item onClick={this.openModalPass}>
+                  Modificar contraseña
               </Dropdown.Item>
-              <Dropdown.Divider />
-              <Col>
-                <Button onClick={this.cerrarSession} variant="outline-danger">
-                  Cerrar sesión
+                <Dropdown.Divider />
+                <Col>
+                  <Button onClick={this.cerrarSession} variant="outline-danger">
+                    Cerrar sesión
                 </Button>
-              </Col>
-            </DropdownButton>
-          )}
+                </Col>
+              </DropdownButton>
+            )}
 
           <Modal
             show={this.state.modalPerfil}
@@ -369,16 +366,72 @@ class Cabecera extends Component {
           }}
         />
 
-        <Route path="/lista_carreras" component={lista_carreras} />
-        <Route path="/alta_carrera" component={alta_carrera} />
-        <Route path="/modificarCarrera" component={modificarCarrera} />
-        <Route path="/eliminarCarrera" component={eliminarCarrera} />
-        <Route path="/alumno" component={alumno} />
-        <Route path="/altaMateria" component={altaMateria} />
-        <Route path="/docentes" component={docente} />
-        <Route path="/lista_materias" component={lista_materias} />
-        <Route path="/chat" component={chat} />
-       
+        <Route path="/lista_carreras" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <lista_carreras />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/alta_carrera" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <Alta_carrera />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/modificarCarrera" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <modificarCarrera />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/eliminarCarrera" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <eliminarCarrera />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/alumno" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <Alumno />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/altaMateria" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <AltaMateria />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+
+        <Route path="/docentes" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <Docente />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+        <Route path="/lista_materias" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <ListaMaterias />
+          } else {
+            return <Login />;
+          }
+        }} />
+
+
         <Route
           path="/registrarse"
           component={() => {
@@ -399,6 +452,14 @@ class Cabecera extends Component {
             }
           }}
         />
+        <Route path="/chat" component={() => {
+          if (sessionStorage.getItem("session")) {
+            return <Chat />;
+          }
+          else {
+            return <Login />
+          }
+        }} />
       </Router>
     );
   }

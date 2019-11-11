@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
+import React, { Component } from 'react';
+import socketIOClient from 'socket.io-client';
 import server from '../config/config';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
