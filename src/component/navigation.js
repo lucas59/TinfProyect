@@ -377,6 +377,7 @@ class Cabecera extends Component {
         <Route path="/altaMateria" component={altaMateria} />
         <Route path="/docentes" component={docente} />
         <Route path="/lista_materias" component={lista_materias} />
+        <Route path="/chat" component={chat} />
        
         <Route
           path="/registrarse"
