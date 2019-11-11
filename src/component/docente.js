@@ -2,7 +2,6 @@ import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-
 import {
   DropdownButton,
   Dropdown,
@@ -15,8 +14,10 @@ import {
   FormGroup,
   FormControl
 } from "react-bootstrap";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
-class docente extends Component {
+class Docente extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +76,7 @@ class docente extends Component {
     }
 
     if (contraseña != contraseña2) {
-      alert("Las contraseñas no coinciden");
+      NotificationManager.error("Las contraseñas no coinciden", "Error");
       return;
     }
 
@@ -100,21 +101,14 @@ class docente extends Component {
         return res.json();
       })
       .then(data => {
-        alert(data.retorno);
-        console.log(data);
-
+       
         if (data.retorno == false) {
-          alert(data.mensaje);
+          NotificationManager.error(data.mensaje, "Error");
         } else {
-          alert("Se registro correctamente el el docente.");
+          NotificationManager.success("Se regitro correctamente el docente", "Exito");
           this.Listar();
         }
 
-        /*  if (data.retorno == true) {
-            
-          } else {
-            alert(data.mensaje);
-          }*/
       })
       .catch(function (res) {
         console.log("res", res);
@@ -260,21 +254,14 @@ class docente extends Component {
         return res.json();
       })
       .then(data => {
-        alert(data.retorno);
 
         if (data.retorno == false) {
-          alert(data.mensaje);
+          NotificationManager.error(data.mensaje,"Error");
         } else {
-          alert("Se registro correctamente el el docente.");
+          NotificationManager.success("Se registro correctamente el docente", "Exito");
           this.Listar();
           this.setState({ modalUpdate: false });
-        }
-
-        /*  if (data.retorno == true) {
-              
-            } else {
-              alert(data.mensaje);
-            }*/
+        } 
       })
       .catch(function (res) {
         console.log("res", res);
@@ -286,6 +273,8 @@ class docente extends Component {
     return (
       <>
         <div className={styles.tabla_carreras}>
+        <NotificationContainer/>
+
           <h1 className={styles.titulo_carreras}>Lista de docentes</h1>
           <NavLink
             style={{ fontSize: 20 }}
@@ -485,4 +474,4 @@ class docente extends Component {
   }
 }
 
-export default docente;
+export default Docente;

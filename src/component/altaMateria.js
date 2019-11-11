@@ -3,8 +3,10 @@ import { server } from "../config/config";
 import Style from '../estilos/altaMateria.css';
 import { Redirect } from "react-router-dom";
 
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
-class altaMateria extends Component {
+class AltaMateria extends Component {
     constructor(props) {
         super(props);
     
@@ -47,12 +49,11 @@ class altaMateria extends Component {
                 return res.json();
             })
             .then(data => {
-                alert(data.retorno);
                 if (data.retorno == false) {
-                    alert(data.mensaje);
+                    NotificationManager.error(data.mensaje, "Error");
                 } else {
                     sessionStorage.removeItem("idCarrera");
-                    alert("Se registro correctamente la Materia.");
+                    NotificationManager.success("Se registro correctamente la Materia.", "Exito");
                 }
             })
             .catch(function (res) {
@@ -64,6 +65,8 @@ class altaMateria extends Component {
         const {nombre, creditos, semestre, objetivos, bibliografia, evaluacion } = this.state;
         return (
             <div className="container">
+                          <NotificationContainer/>
+
                 <div>
                     <div className="form-group">
                         <center>
@@ -140,4 +143,4 @@ class altaMateria extends Component {
     }
 }
 
-export default altaMateria;
+export default AltaMateria;

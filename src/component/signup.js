@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { server } from "../config/config";
 import stylesSignup from "../estilos/signup.css"; // Tell Webpack that Button.js uses these styles
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 class Signup extends Component {
   constructor() {
     super();
@@ -38,7 +43,7 @@ class Signup extends Component {
     }
 
     if (contraseña != contraseña2) {
-      alert("Las contraseñas no coinciden");
+      NotificationManager.error("Las contraseñas no coinciden", "Error");
       return;
     }
 
@@ -61,21 +66,13 @@ class Signup extends Component {
         return res.json();
       })
       .then(data => {
-        alert(data.retorno);
-        console.log(data);
-
         if (data.retorno == false) {
-          alert(data.mensaje);
+          NotificationManager.error(data.mensaje, "Exito");
         } else {
           sessionStorage.setItem("session", data.user);
           window.location.reload();
         }
 
-        /*  if (data.retorno == true) {
-          
-        } else {
-          alert(data.mensaje);
-        }*/
       })
       .catch(function(res) {
         console.log("res", res);
@@ -93,6 +90,8 @@ class Signup extends Component {
     } = this.state;
     return (
       <div className="register-photo">
+        <NotificationContainer />
+
         <div className="form-container">
           <div className="image-holder" />
           <div className="form">
