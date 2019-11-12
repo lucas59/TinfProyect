@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import server from '../config/config';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 class Chat extends Component {
   constructor() {
     super();
+    this.title = React.createRef()
     this.state = {
       response: 0,
       endpoint: "http://localhost:3050"
@@ -13,7 +19,7 @@ class Chat extends Component {
 
   promesa = async () => {
     const { session } = this.state;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       fetch(server.api + "materia/mensajes", {
         method: "GET"
       })
@@ -63,8 +69,29 @@ class Chat extends Component {
     //Very simply connect to the socket
     const socket = socketIOClient(endpoint);
     socket.emit("click", sessionStorage.getItem("session"));
-    console.log("prueba");
-    return <></>;
+  };
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      console.log('do validate');
+    }
+}
+  
+  render() {
+    return <>
+      <h5>Integrantes del chat</h5>
+      <p>Estdudiante: "prueba"</p>
+      <p>Estdudiante: "prueba_1"</p>
+      <p>Estdudiante: "prueba_2"</p>
+      <Paper ref={this.chat} style={{ position: 'absolute', top: 55, left: 200, right: 0, bottom: 0 }} >
+      <h1 style={{ textAlign: 'center' }}>Mensaje de materia : "materia"</h1>
+        <Typography component="p">
+          Mensaje
+    </Typography>
+        <FormControl style={{ position: 'absolute', bottom: 0 }} margin="normal" fullWidth>
+          <InputLabel htmlFor="name">Mensaje</InputLabel>
+          <Input onKeyDown={this._handleKeyDown} id="name" type="text" />
+        </FormControl>
+      </Paper></>;
   }
 }
 
