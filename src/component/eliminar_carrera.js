@@ -1,7 +1,7 @@
 import React, { Component, View, Text } from 'react';
 import Cabecera from './navigation'
 import template from '../vistas/eliminar_carrera';
-class modificar_carrera extends Component {
+class Modificar_carrera extends Component {
 
     constructor() {
         super();
@@ -14,4 +14,4 @@ class modificar_carrera extends Component {
     }
 }
 
-export default modificar_carrera;
+export default Modificar_carrera;

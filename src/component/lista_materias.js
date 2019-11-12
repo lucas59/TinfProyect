@@ -28,13 +28,13 @@ class ListaMaterias extends Component {
     };
   }
 
-  cerrarModal = () => {
+/*  cerrarModal = () => {
     this.setState({ modalVincular: false });
   };
 
   abrirModal = () => {
     this.setState({ modalVincular: true });
-  };
+  };*/
 
   promesa = async () => {
     const { session } = this.state;
@@ -59,7 +59,7 @@ class ListaMaterias extends Component {
     });
   };
 
-  promesaListarTodasMaterias = async () => {
+  /*promesaListarTodasMaterias = async () => {
     const { session } = this.state;
     return new Promise(function(resolve, reject) {
       fetch(server.api + "materia/listarTodasMaterias", {
@@ -72,51 +72,26 @@ class ListaMaterias extends Component {
           resolve(data);
         });
     });
-  };
+  };*/
 
-  promesa_eliminar = async id => {
-    return new Promise(function(resolve, reject) {
-      var data = new URLSearchParams();
-      data.append("id", id);
-      fetch(server.api + "carrera/EliminarCarrera", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data
-      })
-        .then(function(res) {
-          return res;
-        })
-        .then(async data => {
-          resolve(data);
-        });
-    });
-  };
 
-  desvincularme = id => {
+
+  /*desvincularme = id => {
     this.promesa_eliminar(id).then(data => {
       console.log(data);
     });
-  };
+  };*/
 
   Listar = () => {
     this.promesa().then(data => {
-      console.log("largo", data.materias.length);
-      if (data.materias.length > 0) {
-        var ret = data.mensaje.map((data, i) => {
+      console.log("largo", data.retorno.length);
+      if (data.retorno.length !== 0) {
+        var ret = data.retorno.mensaje.map((data, i) => {
           return (
             <tr id={i}>
-              <td>{data.nombre_carrera}</td>
+              <td>{data.retorno.nombre_carrera}</td>
               <td>
-                <button
-                  onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
-                >
-                  Eliminar
-                </button>
-                <button className="btn btn-info">Modificar</button>
+                <button className="btn btn-info">Chat</button>
               </td>
             </tr>
           );
@@ -129,14 +104,15 @@ class ListaMaterias extends Component {
     });
   };
 
-  ListarTodasMaterias = () => {
-    this.promesaListarTodasMaterias().then(data => {
-      console.log("Todas las materias", data);
+ /* ListarTodasMaterias = () => {
+    this.promesa().then(data => {
+      console.log("Todas las materias", data.retorno);
       if (data.length > 0) {
-        var ret = data.mensaje.map((data, i) => {
+        var ret = data.retorno.map((data, i) => {
+          console.log("data",data);
           return (
             <tr id={i}>
-              <td>{data.nombre_carrera}</td>
+              <td>{data.nombreMateria}</td>
               <td>
                 <button
                   onClick={() => this.desvincularme(data._id)}
@@ -154,11 +130,11 @@ class ListaMaterias extends Component {
         return <div>Lista vacia</div>;
       }
     });
-  };
+  };*/
 
   componentDidMount() {
     this.Listar();
-    this.ListarTodasMaterias();
+   // this.ListarTodasMaterias();
   }
 
   render() {
@@ -168,13 +144,7 @@ class ListaMaterias extends Component {
       <>
         <div className={styles.tabla_carreras}>
           <h1 className={styles.titulo_carreras}>Lista de materias</h1>
-          <NavLink
-            style={{ fontSize: 20 }}
-            className={styles.links}
-            onClick={this.abrirModal}
-          >
-            Vincularme a materia
-          </NavLink>
+          
           <table className="table">
             <thead>
               <tr>

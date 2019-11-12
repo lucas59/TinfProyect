@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import server from '../config/config';
 
-class chat extends Component {
+class Chat extends Component {
   constructor() {
     super();
     this.state = {
@@ -28,7 +28,8 @@ class chat extends Component {
 
   Listar = () => {
     this.promesa().then(data => {
-      if (data.length > 0) {
+      console.log("mensajes", data);
+      /*if (data.length > 0) {
         var ret = data.mensaje.map((data, i) => {
           return (
             <tr id={i}>
@@ -49,12 +50,13 @@ class chat extends Component {
         this.setState({ lista: ret });
       } else {
         return <div>Lista vacia</div>;
-      }
+      }*/
     });
   };
 
   componentDidMount = () => {
     //Listen for data on the "outgoing data" namespace and supply a callback for what to do when we get one. In this case, we set a state variable
+  this.Listar();
   };
   render() {
     const { endpoint } = this.state;
@@ -66,4 +68,4 @@ class chat extends Component {
   }
 }
 
-export default chat;
+export default Chat;

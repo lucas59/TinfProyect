@@ -12,16 +12,16 @@ import {
   FormGroup,
   FormControl
 } from "react-bootstrap";
-import altaCarrera from "./alta_carrera";
-import lista_carreras from "./lista_carreras";
-import modificarCarrera from "./modificar_carrera";
-import eliminarCarrera from "./eliminar_carrera";
+import AltaCarrera from "./alta_carrera";
+import Lista_carreras from "./lista_carreras";
+import ModificarCarrera from "./modificar_carrera";
+import EliminarCarrera from "./eliminar_carrera";
 import Alumno from "./alumno";
 import Inicio from "./inicio";
 import AltaMateria from "./altaMateria";
 import Docente from "./docente";
 import ListaMaterias from './lista_materias';
-import chat from './chat';
+import Chat from './chat';
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
 import Alta_carrera from "./alta_carrera";
@@ -211,7 +211,7 @@ class Cabecera extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                { session && session.tipo == 3 && (
+                {session && session.tipo == 3 && (
                   <NavLink className={styles.links} to="/lista_carreras">
                     Carreras
                   </NavLink>
@@ -365,10 +365,21 @@ class Cabecera extends Component {
             }
           }}
         />
+         <Route
+          exact
+          path="/chat"
+          component={() => {
+            if (!this.state.session) {
+              return <Login />;
+            } else {
+              return <Chat />;
+            }
+          }}
+        />
 
         <Route path="/lista_carreras" component={ () =>{
            if (sessionStorage.getItem("session")) {
-            return <lista_carreras/>
+            return <Lista_carreras/>
           } else {
             return <Login />;
           }
