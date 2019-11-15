@@ -369,6 +369,7 @@ class Docente extends Component {
                 placeholder="Contraseña"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                type="password"
               />
               <FormControl
                 onChange={this.onChange}
@@ -377,6 +378,7 @@ class Docente extends Component {
                 placeholder="Confirme la contraseña"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                type="password"
               />
             </InputGroup>
             <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">

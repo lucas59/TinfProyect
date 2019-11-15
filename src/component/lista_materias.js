@@ -36,6 +36,11 @@ class ListaMaterias extends Component {
     this.setState({ modalVincular: true });
   };*/
 
+  chatear = (id) =>{
+    sessionStorage.setItem("chatActual", id);
+    window.location.replace("http://localhost:3000/chat");
+  }
+
   promesa = async () => {
     const { session } = this.state;
     return new Promise(function(resolve, reject) {
@@ -86,12 +91,13 @@ class ListaMaterias extends Component {
     this.promesa().then(data => {
       console.log("largo", data.retorno.length);
       if (data.retorno.length !== 0) {
-        var ret = data.retorno.mensaje.map((data, i) => {
+        var ret = data.retorno.map((data, i) => {
+          console.log("ret",data);
           return (
             <tr id={i}>
-              <td>{data.retorno.nombre_carrera}</td>
+              <td>{data.nombreMateria}</td>
               <td>
-                <button className="btn btn-info">Chat</button>
+                <button onClick={()=>{this.chatear(data._id)}} className="btn btn-info">Chat</button>
               </td>
             </tr>
           );

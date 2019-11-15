@@ -108,7 +108,6 @@ class Lista_carreras extends Component {
   }
 
   render() {
-    this.Listar();
     return (
       <>
         <div className={styles.tabla_carreras}>

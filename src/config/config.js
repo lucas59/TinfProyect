@@ -1,5 +1,5 @@
 module.exports = {
     server:{
-        api: 'http://192.168.1.41:3050/'
+        api: 'http://192.168.1.43:3050/'
     }
 }
