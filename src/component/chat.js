@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 
-class chat extends Component {
+class Chat extends Component {
   constructor() {
     super();
     this.title = React.createRef()
@@ -34,7 +34,8 @@ class chat extends Component {
 
   Listar = () => {
     this.promesa().then(data => {
-      if (data.length > 0) {
+      console.log("mensajes", data);
+      /*if (data.length > 0) {
         var ret = data.mensaje.map((data, i) => {
           return (
             <tr id={i}>
@@ -55,12 +56,15 @@ class chat extends Component {
         this.setState({ lista: ret });
       } else {
         return <div>Lista vacia</div>;
-      }
+      }*/
     });
   };
 
   componentDidMount = () => {
-    console.log("prueba");
+    //Listen for data on the "outgoing data" namespace and supply a callback for what to do when we get one. In this case, we set a state variable
+  this.Listar();
+  };
+  render() {
     const { endpoint } = this.state;
     //Very simply connect to the socket
     const socket = socketIOClient(endpoint);
@@ -91,4 +95,4 @@ class chat extends Component {
   }
 }
 
-export default chat;
+export default Chat;
