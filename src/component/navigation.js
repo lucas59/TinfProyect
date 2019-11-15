@@ -27,6 +27,7 @@ import { server } from "../config/config";
 import Alta_carrera from "./alta_carrera";
 import Login from "./login";
 import Signup from "./signup";
+import Chat from "./chat"
 
 class Cabecera extends Component {
   constructor() {
