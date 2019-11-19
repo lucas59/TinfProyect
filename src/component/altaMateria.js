@@ -35,7 +35,7 @@ class AltaMateria extends Component {
         data.append("objetivo", objetivos);
         data.append("bibliografia", bibliografia);
         data.append("evaluacion", evaluacion);
-
+        console.log("datos", idCarrera, creditos, semestre, objetivos, bibliografia, evaluacion);
         fetch(server.api + "carrera/altaMateria", {
             method: "POST",
             credentials: "include",

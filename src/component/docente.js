@@ -115,21 +115,6 @@ class Docente extends Component {
       });
   };
 
-  promesa = async () => {
-    return new Promise(function (resolve, reject) {
-      fetch(server.api + 'carrera/listarMaterias', {
-        method: "GET"
-      })
-
-        .then(res => {
-          return res.json();
-        })
-        .then(async data => {
-          resolve(data);
-        })
-    });
-  };
-
   ListarMateria = () => {
     this.promesa().then(data => {
       if (data.retorno.length > 0) {
@@ -159,7 +144,8 @@ class Docente extends Component {
 
   Listar = () => {
     this.promesa().then(data => {
-      console.log("cantidad: ", data.retorno.length);
+
+      console.log("cantidad: ", data.retorno);
       if (data.retorno.length > 0) {
         var ret = data.retorno.map((data, i) => {
           return (
@@ -187,12 +173,7 @@ class Docente extends Component {
               >
                 Modificar
               </Button>
-            </tr> /*
-                <th>Cédula</th>
-                <th>Nombre Apellido</th>
-                <th>Correo</th>
-                <th>Celular</th>
-                <th>Web</th>*/
+            </tr> 
           );
         });
         this.setState({ lista: ret });
@@ -369,6 +350,7 @@ class Docente extends Component {
                 placeholder="Contraseña"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                type="password"
               />
               <FormControl
                 onChange={this.onChange}
@@ -377,6 +359,7 @@ class Docente extends Component {
                 placeholder="Confirme la contraseña"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                type="password"
               />
             </InputGroup>
             <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">

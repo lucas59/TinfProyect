@@ -331,12 +331,14 @@ class Cabecera extends Component {
                   placeholder="Contraseña actual"
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
+                  type="password"
                 />
               </InputGroup>
               <InputGroup className="mb-2">
                 <FormControl
                   onChange={this.onChange}
                   value={this.state.nuevaPass}
+                  type="password"
                   name="nuevaPass"
                   placeholder="Nueva contraseña"
                   aria-label="Recipient's username"
@@ -367,7 +369,7 @@ class Cabecera extends Component {
         />
          <Route
           exact
-          path="/chat"
+          path="/chat:id"
           component={() => {
             if (!this.state.session) {
               return <Login />;
