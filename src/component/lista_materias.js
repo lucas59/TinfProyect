@@ -36,8 +36,10 @@ class ListaMaterias extends Component {
     this.setState({ modalVincular: true });
   };*/
 
-  chatear = (id) =>{
+  chatear = (id,nombre) =>{
     sessionStorage.setItem("chatActual", id);
+    sessionStorage.setItem("chatActual_nombre", nombre);
+   
     window.location.replace("http://localhost:3000/chat");
   }
 
@@ -97,7 +99,7 @@ class ListaMaterias extends Component {
             <tr id={i}>
               <td>{data.nombreMateria}</td>
               <td>
-                <button onClick={()=>{this.chatear(data._id)}} className="btn btn-info">Chat</button>
+                <button onClick={() => { this.chatear(data._id, data.nombreMateria)}} className="btn btn-info">Chat</button>
               </td>
             </tr>
           );
