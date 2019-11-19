@@ -45,11 +45,9 @@ class Chat extends Component {
 
   Listar = () => {
     this.promesa().then(data => {
-      console.log("asdasdasd");
 
-      console.log("mensajes", data);
-      /*if (data.length > 0) {
-        var ret = data.mensaje.map((data, i) => {
+ if (data.retorno.mensajesChat.length > 0) {
+        var ret = data.retorno.mensajesChat.map((data, i) => {
           return (
             <tr id={i}>
               <td>{data.nombre_carrera}</td>
@@ -69,7 +67,7 @@ class Chat extends Component {
         this.setState({ lista: ret });
       } else {
         return <div>Lista vacia</div>;
-      }*/
+      }
     });
   };
 
