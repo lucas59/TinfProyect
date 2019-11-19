@@ -36,8 +36,10 @@ class ListaMaterias extends Component {
     this.setState({ modalVincular: true });
   };*/
 
-  chatear = (id) =>{
+  chatear = (id,nombre) =>{
     sessionStorage.setItem("chatActual", id);
+    sessionStorage.setItem("chatActual_nombre", nombre);
+   
     window.location.replace("http://localhost:3000/chat");
   }
 
