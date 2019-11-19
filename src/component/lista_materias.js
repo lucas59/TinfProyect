@@ -43,6 +43,11 @@ class ListaMaterias extends Component {
     window.location.replace("http://localhost:3000/chat");
   }
 
+  gestionar = (id) =>{
+    sessionStorage.setItem("gestionMateria", id);
+    window.location.replace("http://localhost:3000/administrarMateria");
+  }
+
   promesa = async () => {
     const { session } = this.state;
     return new Promise(function(resolve, reject) {
@@ -99,7 +104,10 @@ class ListaMaterias extends Component {
             <tr id={i}>
               <td>{data.nombreMateria}</td>
               <td>
-                <button onClick={() => { this.chatear(data._id, data.nombreMateria)}} className="btn btn-info">Chat</button>
+                <button onClick={()=>{this.gestionar(data._id)}} className="btn btn-info">Alumnos</button>
+              </td>
+              <td>
+                <button onClick={()=>{this.chatear(data._id)}} className="btn btn-info">Chat</button>
               </td>
             </tr>
           );
