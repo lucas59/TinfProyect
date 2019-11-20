@@ -8,6 +8,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListGroup from 'react-bootstrap/ListGroup';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -90,7 +92,9 @@ class Chat extends Component {
           let hours = date_ob.getHours();
           let minutes = date_ob.getMinutes();
           return (
-            <ListGroup.Item>Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
+            <ListGroup.Item>
+              <Avatar alt="Remy Sharp" src="https://www.fourjay.org/myphoto/s/20/206383_user-png.png" />
+              Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
           );
         });
         await this.setState({ lista: ret });
@@ -132,7 +136,7 @@ class Chat extends Component {
     });
     console.log("entra 1");
     this.Listar();
-   
+
   };
 
 
@@ -188,7 +192,7 @@ class Chat extends Component {
             <div ref={el => { this.el = el; }} />
           </ ListGroup>
           <FormControl
-            style={{ position: "absolute", bottom: '11px' , width: '79%', left: '10%', borderRadius: '5px !important', border:'1px solid black', borderRadius: '10px', borderWidth: '1px' }}
+            style={{ position: "absolute", bottom: '11px', width: '79%', left: '10%', borderRadius: '5px !important', border: '1px solid black', borderRadius: '10px', borderWidth: '1px', }}
             margin="normal"
             fullWidth
           >
