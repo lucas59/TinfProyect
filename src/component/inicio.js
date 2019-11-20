@@ -6,13 +6,8 @@ import $ from "jquery";
 import { server } from "../config/config";
 import "../estilos/inicio.css";
 import socketIOClient from "socket.io-client";
-import {
-  Button,
-  Modal,
-  InputGroup,
-  FormControl,
-  Form
-} from "react-bootstrap";
+import { Button, Modal, InputGroup, FormControl, Form } from "react-bootstrap";
+import {FontAwesome} from "react-fontawesome";
 
 class Inicio extends Component {
   constructor() {
@@ -43,7 +38,7 @@ class Inicio extends Component {
     this.promesa().then(data => {
       var dateFormat = require("dateformat");
       if (data.novedades.length > 0) {
-        this.setState({listaNovedades:data.novedades});
+        this.setState({ listaNovedades: data.novedades });
         var ret = data.novedades.map((data, i) => {
           var fecha = dateFormat(data.fecha, "yyyy-mm-dd h:MM:ss");
           return (
@@ -58,7 +53,7 @@ class Inicio extends Component {
                   onClick={() => this.visualizar(data._id)}
                   className="btn btn-info"
                 >
-                  Ver
+                  <FontAwesome icon={["fab", "apple"]} /> Ver
                 </button>
               </td>
             </tr>
@@ -101,25 +96,37 @@ class Inicio extends Component {
     return (
       <>
         <div class="contenedorInicio"> </div>
+        <section id="novedades">
+          <div id="tablaNovedades">
+            <div id="titulo">
+              <h1>NOVEDADES</h1>
+            </div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Contenido</th>
+                  <th>Contacto</th>
+                  <th>Fecha</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.novedades ? this.state.novedades : "cargando"}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-        <div id="tablaNovedades">
-          <div id="titulo"><h1>NOVEDADES</h1></div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Contenido</th>
-                <th>Contacto</th>
-                <th>Fecha</th>
-                <th>Opciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.novedades ? this.state.novedades : "cargando"}
-            </tbody>
-          </table>
-        </div>
-
+        <footer class="page-footer font-small blue">
+          <div id="footer" class="footer-copyright text-center py-3">
+            2019 TECNOLÓGOS EN INFORMÁtica :
+            <a href="https://mdbootstrap.com/education/bootstrap/">
+              {" "}
+              tecnoinf.com
+            </a>
+          </div>
+        </footer>
         <Modal show={modalView} onHide={this.cerrarModalView} animation={true}>
           <Modal.Header closeButton>
             <Modal.Title>Nueva novedad</Modal.Title>

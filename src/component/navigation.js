@@ -147,6 +147,10 @@ class Cabecera extends Component {
       });
   };
 
+  redirigirANovedades = () =>{
+    window.location.href="http://localhost:3000/#novedades";
+  }
+
   enviarCambioPass = () => {
     ///funcion que guarda los datos que el usuario edita de su perfik
     const { nuevaPass, contraseñaActual, session } = this.state;
@@ -228,7 +232,9 @@ class Cabecera extends Component {
                   </NavLink>
                 )}
               </li>
-
+              <NavLink className={styles.links} onClick={()=>this.redirigirANovedades()} >
+                    Novedades
+                  </NavLink>
               <li class="nav-item">
                 <NavLink className={styles.links} to="/lista_materias">
                   Materias
@@ -518,7 +524,7 @@ class Cabecera extends Component {
             if (this.state.session) {
               return <Inicio />;
             } else {
-              window.location.replace("/ingresar")
+              return <Login/>
             }
           }}
         />
