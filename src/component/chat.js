@@ -6,23 +6,22 @@ import Paper from "@material-ui/core/Paper";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.title = React.createRef();
     this.state = {
       response: 0,
-      endpoint: "http://localhost:3050",
       idMateria: "",
       nombreMateria: '',
       usuario: '',
-      mensaje: ''
+      mensaje: '',
+      socket: socketIOClient("http://localhost:3050")
     };
   }
 
   Alta_mensaje = () => {
-    const { idMateria, usuario, mensaje  } = this.state;
+    const { idMateria, usuario, mensaje } = this.state;
     var data = new URLSearchParams();
     data.append("idMateria", idMateria);
     data.append("usuario", usuario._id);
@@ -31,24 +30,24 @@ class Chat extends Component {
     console.log(usuario._id);
     console.log(mensaje);
     fetch(server.api + 'carrera/chat', {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
     })
-        .then(function (res) {
-            return res.json();
-        })
-        .then(data => {
-            console.log("id de la respuesta:", data.respuesta);
-        })
-        .catch(function (res) {
-            console.log("res", res);
-        });
+      .then(function (res) {
+        return res.json();
+      })
+      .then(data => {
+        console.log("id de la respuesta:", data.respuesta);
+      })
+      .catch(function (res) {
+        console.log("res", res);
+      });
 
-};
+  };
 
   promesa = async () => {
     console.log("nombre", sessionStorage.getItem("chatActual_nombre"));
@@ -107,33 +106,47 @@ class Chat extends Component {
   componentDidMount = () => {
     this.setState({ idMateria: sessionStorage.getItem("chatActual") });
     this.setState({ nombreMateria: sessionStorage.getItem("chatActual_nombre") });
-    this.setState({usuario : JSON.parse(sessionStorage.getItem("session"))});
-    //this.Listar();
+    this.setState({ usuario: JSON.parse(sessionStorage.getItem("session")) });
+    var panel_usuarios  = document.getElementById("usuarios_panel");
+    var panel = document.getElementById("Chat_panel");
+    let date_ob = new Date();
+    let hours = date_ob.getHours();
+    let minutes = date_ob.getMinutes();
+    this.state.socket.emit("conectar", this.state.usuario);
+    this.state.socket.on('usuarios', function (data) {
+      panel_usuarios.innerHTML = "Usuarios: " + data.usuarios;
+    });
+    this.state.socket.on('Mensaje_materia', function (data) {
+      console.log("entra mensaje");
+      console.log(data);
+      panel.innerHTML += "<Typography component=\"p\">Usuario: " + data.mensaje.usuario +" " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</Typography><br><br>";
+    });
+    this.Listar();
   };
-  
+
   _handleKeyDown = async e => {
     if (e.key === "Enter") {
       console.log("pru");
-      var panel = document.getElementById("Chat_panel");
       var mensaje = document.getElementById("Chat_mensaje").value;
+      
       console.log(mensaje);
       var usuario = this.state.usuario;
-      await this.setState({mensaje: mensaje});
-      panel.innerHTML += "<Typography component=\"p\">Usuario: " + usuario.nombre+ "<br> Mensaje: " + mensaje+"</Typography><br><br>";
-      /*const { endpoint } = this.state;
-      const socket = socketIOClient(endpoint);
-      socket.emit("mensaje", sessionStorage.getItem("session"));*/
+      await this.setState({ mensaje: mensaje });
+      this.state.socket.emit("sala_materia", this.state.idMateria);
+      this.state.socket.emit('mensaje', {
+        sala: this.state.idMateria,
+        mensaje: mensaje,
+        usuario: usuario.nombre
+      });
       this.Alta_mensaje();
+
     }
   };
 
   render() {
     return (
       <>
-        <h5>Integrantes del chat</h5>
-        <p>Estdudiante: "prueba"</p>
-        <p>Estdudiante: "prueba_1"</p>
-        <p>Estdudiante: "prueba_2"</p>
+        <div id="usuarios_panel"></div>
         <Paper
           ref={this.chat}
           style={{
@@ -143,12 +156,12 @@ class Chat extends Component {
             right: 0,
             bottom: 0
           }}
-          
+
         >
           <h1 style={{ textAlign: "center" }}>
             chat de materia : {this.state.nombreMateria}
           </h1>
-         
+
           <div id="Chat_panel"></div>
           <FormControl
             style={{ position: "absolute", bottom: 0 }}
