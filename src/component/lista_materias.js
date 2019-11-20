@@ -28,7 +28,7 @@ class ListaMaterias extends Component {
     };
   }
 
-/*  cerrarModal = () => {
+  /*  cerrarModal = () => {
     this.setState({ modalVincular: false });
   };
 
@@ -36,19 +36,19 @@ class ListaMaterias extends Component {
     this.setState({ modalVincular: true });
   };*/
 
-  chatear = (id,nombre) =>{
+  chatear = (id, nombre) => {
     sessionStorage.setItem("chatActual", id);
     console.log("nombre", nombre);
     console.log("id",id);
     sessionStorage.setItem("chatActual_nombre", nombre);
-   
-    window.location.replace("http://localhost:3000/chat");
-  }
 
-  gestionar = (id) =>{
+    window.location.replace("http://localhost:3000/chat");
+  };
+
+  gestionar = id => {
     sessionStorage.setItem("gestionMateria", id);
     window.location.replace("http://localhost:3000/administrarMateria");
-  }
+  };
 
   promesa = async () => {
     const { session } = this.state;
@@ -73,11 +73,19 @@ class ListaMaterias extends Component {
     });
   };
 
-  /*promesaListarTodasMaterias = async () => {
+  promesaEstudiantes = async () => {
     const { session } = this.state;
     return new Promise(function(resolve, reject) {
-      fetch(server.api + "materia/listarTodasMaterias", {
-        method: "GET"
+      var datos = new URLSearchParams();
+      datos.append("id", session._id);
+      console.log("datos", session._id);
+      fetch(server.api + "estudiantes/materias", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: datos
       })
         .then(res => {
           return res.json();
@@ -86,44 +94,140 @@ class ListaMaterias extends Component {
           resolve(data);
         });
     });
-  };*/
+  };
 
-
-
-  /*desvincularme = id => {
-    this.promesa_eliminar(id).then(data => {
-      console.log(data);
-    });
-  };*/
-
-  Listar = () => {
-    this.promesa().then(data => {
-      console.log(data.retorno);
-      console.log("largo", data.retorno.length);
-      if (data.retorno.length !== 0) {
-        var ret = data.retorno.map((data, i) => {
-          console.log("ret",data);
-          return (
-            <tr id={i}>
-              <td>{data.nombreMateria}</td>
-              <td>
-                <button onClick={()=>{this.gestionar(data._id)}} className="btn btn-info">Alumnos</button>
-              </td>
-              <td>
-                <button onClick={()=>{this.chatear(data._id, data.nombreMateria)}} className="btn btn-info">Chat</button>
-              </td>
-            </tr>
-          );
+  promesaDocentes = async () => {
+    const { session } = this.state;
+    return new Promise(function(resolve, reject) {
+      var datos = new URLSearchParams();
+      datos.append("id", session._id);
+      console.log("datos", session._id);
+      fetch(server.api + "docentes/materias", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: datos
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(async data => {
+          resolve(data);
         });
-        this.setState({ lista: ret });
-      } else {
-          return <div>Lista vacia</div>;
-        
-      }
     });
   };
 
- /* ListarTodasMaterias = () => {
+  Listar = () => {
+    const { session } = this.state;
+
+    if (session.tipo == 1) {
+      // lista de estudiantes
+      this.promesaEstudiantes().then(data => {
+        console.log("largo", data.retorno);
+        if (data.retorno.length !== 0) {
+          var ret = data.retorno.map((data, i) => {
+            console.log("ret", data);
+            return (
+              <tr id={i}>
+                <td>{data.nombreMateria}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      this.chatear(data._id);
+                    }}
+                    className="btn btn-info"
+                  >
+                    Chat
+                  </button>
+                </td>
+              </tr>
+            );
+          });
+          this.setState({ lista: ret });
+        } else {
+          return <div>Lista vacia</div>;
+        }
+      });
+    } else if (session.tipo == 2) {
+      this.promesaDocentes().then(data => {
+        console.log("docente", data);
+        if (data.retorno.length !== 0) {
+          var ret = data.retorno.map((data, i) => {
+            console.log("ret", data);
+            return (
+              <tr id={i}>
+                <td>{data.nombreMateria}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      this.gestionar(data._id);
+                    }}
+                    className="btn btn-info"
+                  >
+                    Alumnos
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      this.chatear(data._id);
+                    }}
+                    className="btn btn-info"
+                  >
+                    Chat
+                  </button>
+                </td>
+              </tr>
+            );
+          });
+          this.setState({ lista: ret });
+        } else {
+          return <div>Lista vacia</div>;
+        }
+      });
+    } else {
+      this.promesa().then(data => {
+        console.log("largo", data);
+        if (data.retorno.length !== 0) {
+          var ret = data.retorno.map((data, i) => {
+            console.log("ret", data);
+            return (
+              <tr id={i}>
+                <td>{data.nombreMateria}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      this.gestionar(data._id);
+                    }}
+                    className="btn btn-info"
+                  >
+                    Alumnos
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      this.chatear(data._id);
+                    }}
+                    className="btn btn-info"
+                  >
+                    Chat
+                  </button>
+                </td>
+              </tr>
+            );
+          });
+          this.setState({ lista: ret });
+        } else {
+          return <div>Lista vacia</div>;
+        }
+      });
+    }
+  };
+
+  /* ListarTodasMaterias = () => {
     this.promesa().then(data => {
       console.log("Todas las materias", data.retorno);
       if (data.length > 0) {
@@ -153,7 +257,7 @@ class ListaMaterias extends Component {
 
   componentDidMount() {
     this.Listar();
-   // this.ListarTodasMaterias();
+    // this.ListarTodasMaterias();
   }
 
   render() {
@@ -163,7 +267,7 @@ class ListaMaterias extends Component {
       <>
         <div className={styles.tabla_carreras}>
           <h1 className={styles.titulo_carreras}>Lista de materias</h1>
-          
+
           <table className="table">
             <thead>
               <tr>
