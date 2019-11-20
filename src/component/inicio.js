@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import alumno from "./alumno";
 import PublicRoute from "./ruta_publica";
-import $ from "jquery";
 import { server } from "../config/config";
 import "../estilos/inicio.css";
 import socketIOClient from "socket.io-client";
@@ -59,7 +58,7 @@ class Inicio extends Component {
             </tr>
           );
         });
-        this.setState({ novedades: ret });
+      //  this.setState({ novedades: ret });
       } else {
         return <div>Lista vacia</div>;
       }

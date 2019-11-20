@@ -82,7 +82,7 @@ class Chat extends Component {
   Listar = () => {
     console.log("entra 2");
     this.promesa().then(async data => {
-      console.log(data.retorno.mensajesChat.length);
+      console.log(data.retorno);
       if (data.retorno.mensajesChat.length > 0) {
         var ret = data.retorno.mensajesChat.map((data, i) => {
           console.log(data);
@@ -90,19 +90,20 @@ class Chat extends Component {
           let hours = date_ob.getHours();
           let minutes = date_ob.getMinutes();
           return (
-          
-              <ListGroup.Item>Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
-            
+            <ListGroup.Item>Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
           );
         });
         await this.setState({ lista: ret });
         console.log(this.state.lista);
+        this.scrollToBottom();
       } else {
         return <div>Lista vacia</div>;
       }
     });
   };
-
+  scrollToBottom = () => {
+    this.el.scrollIntoView({ behavior: 'instant' });
+  }
   componentDidMount = () => {
     const { socket, usuario, mensaje } = this.state;
     var panel_usuarios = document.getElementById("usuarios_panel");
@@ -112,6 +113,7 @@ class Chat extends Component {
     let minutes = date_ob.getMinutes();
     console.log(usuario);
     socket.emit("conectar", usuario);
+    this.state.socket.emit("sala_materia", this.state.idMateria);
     socket.on('usuarios', function (data) {
       console.log("usuarios: ", data);
       panel_usuarios.innerHTML = <ListItemText primary="+ data +" />;
@@ -119,19 +121,23 @@ class Chat extends Component {
     socket.on('usuarios', function (data) {
       panel_usuarios.innerHTML = "Usuarios: " + data.usuarios;
     });
+    socket.on('connectToRoom', function (data) {
+      console.log(data);
+    });
     socket.on('Mensaje_materia', function (data) {
       console.log("entra mensaje");
       console.log(data);
-      //panel.innerHTML += "  <ListItem> <ListItemText primary=" + data.mensaje.usuario + " " + hours + ":" + minutes + "Mensaje: " + data.mensaje.mensaje + "/></ListItem><br><br>";
+      panel.innerHTML += "<div role=\"tab\" tabindex=\"-1\" class=\"list-group-item\"><ListGroup.Item>Nombre: " + data.mensaje.usuario + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
+
     });
     console.log("entra 1");
     this.Listar();
-
+   
   };
 
+
   componentWillUnmount = () => {
-    const { socket, usuario } = this.state;
-    socket.emit("desconectar", usuario);
+
   }
 
   _handleKeyDown = async e => {
@@ -141,7 +147,6 @@ class Chat extends Component {
       console.log(mensaje);
       var usuario = this.state.usuario;
       await this.setState({ mensaje: mensaje });
-      this.state.socket.emit("sala_materia", this.state.idMateria);
       this.state.socket.emit('mensaje', {
         sala: this.state.idMateria,
         mensaje: mensaje,
@@ -149,11 +154,11 @@ class Chat extends Component {
       });
       this.Alta_mensaje();
       document.getElementById("Chat_mensaje").value = "";
+
     }
   };
 
   render() {
-
     return (
       <>
 
@@ -180,6 +185,7 @@ class Chat extends Component {
             style={{ 'max-height': 'calc(100vh - 210px)', 'overflow-y': 'auto' }}
           >
             {this.state.lista}
+            <div ref={el => { this.el = el; }} />
           </ ListGroup>
           <FormControl
             style={{ position: "absolute", bottom: 0 }}
