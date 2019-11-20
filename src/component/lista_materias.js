@@ -38,6 +38,8 @@ class ListaMaterias extends Component {
 
   chatear = (id,nombre) =>{
     sessionStorage.setItem("chatActual", id);
+    console.log("nombre", nombre);
+    console.log("id",id);
     sessionStorage.setItem("chatActual_nombre", nombre);
    
     window.location.replace("http://localhost:3000/chat");
@@ -96,6 +98,7 @@ class ListaMaterias extends Component {
 
   Listar = () => {
     this.promesa().then(data => {
+      console.log(data.retorno);
       console.log("largo", data.retorno.length);
       if (data.retorno.length !== 0) {
         var ret = data.retorno.map((data, i) => {
@@ -107,7 +110,7 @@ class ListaMaterias extends Component {
                 <button onClick={()=>{this.gestionar(data._id)}} className="btn btn-info">Alumnos</button>
               </td>
               <td>
-                <button onClick={()=>{this.chatear(data._id)}} className="btn btn-info">Chat</button>
+                <button onClick={()=>{this.chatear(data._id, data.nombreMateria)}} className="btn btn-info">Chat</button>
               </td>
             </tr>
           );
