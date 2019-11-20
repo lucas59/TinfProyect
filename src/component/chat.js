@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import { server } from "../config/config";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListGroup from 'react-bootstrap/ListGroup';
 class Chat extends Component {
   constructor(props) {
     super(props);
     this.title = React.createRef();
     this.state = {
       response: 0,
-      idMateria: "",
-      nombreMateria: '',
-      usuario: '',
+      idMateria: sessionStorage.getItem("chatActual"),
+      nombreMateria: sessionStorage.getItem("chatActual_nombre"),
+      usuario: JSON.parse(sessionStorage.getItem("session")),
       mensaje: '',
-      socket: socketIOClient("http://localhost:3050")
+      socket: socketIOClient("http://localhost:3050"),
+      lista: ''
     };
   }
 
@@ -50,9 +53,9 @@ class Chat extends Component {
   };
 
   promesa = async () => {
+    console.log("entra promesa");
     console.log("nombre", sessionStorage.getItem("chatActual_nombre"));
     const { session, idMateria } = this.state;
-    console.log(idMateria);
     return new Promise(function (resolve, reject) {
       var data = new URLSearchParams();
       data.append("id", idMateria);
@@ -70,33 +73,30 @@ class Chat extends Component {
           return res.json();
         })
         .then(async data => {
+          console.log("!", data);
           resolve(data);
         });
     });
   };
 
   Listar = () => {
-    this.promesa().then(data => {
-
+    console.log("entra 2");
+    this.promesa().then(async data => {
+      console.log(data.retorno.mensajesChat.length);
       if (data.retorno.mensajesChat.length > 0) {
         var ret = data.retorno.mensajesChat.map((data, i) => {
+          console.log(data);
+          let date_ob = new Date(data.fechaMensaje);
+          let hours = date_ob.getHours();
+          let minutes = date_ob.getMinutes();
           return (
-            <tr id={i}>
-              <td>{data.nombre_carrera}</td>
-              <td>{data.descripcion_carrera}</td>
-              <td>
-                <button
-                  onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
-                >
-                  Eliminar
-                </button>
-                <button className="btn btn-info">Modificar</button>
-              </td>
-            </tr>
+          
+              <ListGroup.Item>Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
+            
           );
         });
-        this.setState({ lista: ret });
+        await this.setState({ lista: ret });
+        console.log(this.state.lista);
       } else {
         return <div>Lista vacia</div>;
       }
@@ -104,31 +104,40 @@ class Chat extends Component {
   };
 
   componentDidMount = () => {
-    this.setState({ idMateria: sessionStorage.getItem("chatActual") });
-    this.setState({ nombreMateria: sessionStorage.getItem("chatActual_nombre") });
-    this.setState({ usuario: JSON.parse(sessionStorage.getItem("session")) });
-    var panel_usuarios  = document.getElementById("usuarios_panel");
+    const { socket, usuario, mensaje } = this.state;
+    var panel_usuarios = document.getElementById("usuarios_panel");
     var panel = document.getElementById("Chat_panel");
     let date_ob = new Date();
     let hours = date_ob.getHours();
     let minutes = date_ob.getMinutes();
-    this.state.socket.emit("conectar", this.state.usuario);
-    this.state.socket.on('usuarios', function (data) {
+    console.log(usuario);
+    socket.emit("conectar", usuario);
+    socket.on('usuarios', function (data) {
+      console.log("usuarios: ", data);
+      panel_usuarios.innerHTML = <ListItemText primary="+ data +" />;
+    });
+    socket.on('usuarios', function (data) {
       panel_usuarios.innerHTML = "Usuarios: " + data.usuarios;
     });
-    this.state.socket.on('Mensaje_materia', function (data) {
+    socket.on('Mensaje_materia', function (data) {
       console.log("entra mensaje");
       console.log(data);
-      panel.innerHTML += "<Typography component=\"p\">Usuario: " + data.mensaje.usuario +" " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</Typography><br><br>";
+      //panel.innerHTML += "  <ListItem> <ListItemText primary=" + data.mensaje.usuario + " " + hours + ":" + minutes + "Mensaje: " + data.mensaje.mensaje + "/></ListItem><br><br>";
     });
+    console.log("entra 1");
     this.Listar();
+
   };
+
+  componentWillUnmount = () => {
+    const { socket, usuario } = this.state;
+    socket.emit("desconectar", usuario);
+  }
 
   _handleKeyDown = async e => {
     if (e.key === "Enter") {
       console.log("pru");
       var mensaje = document.getElementById("Chat_mensaje").value;
-      
       console.log(mensaje);
       var usuario = this.state.usuario;
       await this.setState({ mensaje: mensaje });
@@ -139,14 +148,19 @@ class Chat extends Component {
         usuario: usuario.nombre
       });
       this.Alta_mensaje();
-
+      document.getElementById("Chat_mensaje").value = "";
     }
   };
 
   render() {
+
     return (
       <>
-        <div id="usuarios_panel"></div>
+
+        <div
+          id="usuarios_panel"
+        >
+        </div>
         <Paper
           ref={this.chat}
           style={{
@@ -156,13 +170,17 @@ class Chat extends Component {
             right: 0,
             bottom: 0
           }}
-
         >
           <h1 style={{ textAlign: "center" }}>
             chat de materia : {this.state.nombreMateria}
           </h1>
-
-          <div id="Chat_panel"></div>
+          < ListGroup
+            responsive
+            id="Chat_panel"
+            style={{ 'max-height': 'calc(100vh - 210px)', 'overflow-y': 'auto' }}
+          >
+            {this.state.lista}
+          </ ListGroup>
           <FormControl
             style={{ position: "absolute", bottom: 0 }}
             margin="normal"
