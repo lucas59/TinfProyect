@@ -41,7 +41,7 @@ class ListaMaterias extends Component {
     console.log("nombre", nombre);
     console.log("id",id);
     sessionStorage.setItem("chatActual_nombre", nombre);
-
+    
     window.location.replace("http://localhost:3000/chat");
   };
 
@@ -209,7 +209,7 @@ class ListaMaterias extends Component {
                 <td>
                   <button
                     onClick={() => {
-                      this.chatear(data._id);
+                      this.chatear(data._id, data.nombreMateria);
                     }}
                     className="btn btn-info"
                   >

@@ -176,9 +176,9 @@ class Chat extends Component {
             bottom: 0
           }}
         >
-          <h1 style={{ textAlign: "center" }}>
-            chat de materia : {this.state.nombreMateria}
-          </h1>
+          <h5 style={{ textAlign: "left" }}>
+            Chat de materia : {this.state.nombreMateria}
+          </h5>
           < ListGroup
             responsive
             id="Chat_panel"
@@ -188,7 +188,7 @@ class Chat extends Component {
             <div ref={el => { this.el = el; }} />
           </ ListGroup>
           <FormControl
-            style={{ position: "absolute", bottom: 0 }}
+            style={{ position: "absolute", bottom: '11px' , width: '79%', left: '10%', borderRadius: '5px !important', border:'1px solid black', borderRadius: '10px', borderWidth: '1px' }}
             margin="normal"
             fullWidth
           >
