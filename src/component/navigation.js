@@ -29,6 +29,7 @@ import { server } from "../config/config";
 import Alta_carrera from "./alta_carrera";
 import Login from "./login";
 import Signup from "./signup";
+import Novedades from "./novedades";
 
 class Cabecera extends Component {
   constructor() {
@@ -219,6 +220,15 @@ class Cabecera extends Component {
                   </NavLink>
                 )}
               </li>
+
+              <li class="nav-item">
+                {session && session.tipo == 3 && (
+                  <NavLink className={styles.links} to="/novedades">
+                    Novedades
+                  </NavLink>
+                )}
+              </li>
+
               <li class="nav-item">
                 <NavLink className={styles.links} to="/lista_materias">
                   Materias
@@ -371,10 +381,23 @@ class Cabecera extends Component {
         />
         <Route
           exact
+          path="/novedades"
+          component={() => {
+            if (!this.state.session || this.state.session.tipo !== 3) {
+              window.location.replace("/ingresar");
+            } else {
+              return <Novedades />;
+            }
+          }}
+        />
+
+        <Route
+          exact
           path="/chat:id"
           component={() => {
             if (!this.state.session) {
-              return <Login />;
+              window.location.replace("/ingresar");
+              //return <Login />;
             } else {
               return <Chat />;
             }
@@ -387,7 +410,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Lista_carreras />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -398,7 +421,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Alta_carrera />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -409,7 +432,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <modificarCarrera />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -420,7 +443,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <eliminarCarrera />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -431,7 +454,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Alumno />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -453,7 +476,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Docente />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -464,7 +487,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Lista_Alumnos />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -474,7 +497,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <ListaMaterias />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar");
             }
           }}
         />
@@ -492,10 +515,10 @@ class Cabecera extends Component {
         <Route
           path="/ingresar"
           component={() => {
-            if (sessionStorage.getItem("session")) {
+            if (this.state.session) {
               return <Inicio />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar")
             }
           }}
         />
@@ -505,7 +528,7 @@ class Cabecera extends Component {
             if (sessionStorage.getItem("session")) {
               return <Chat />;
             } else {
-              return <Login />;
+              window.location.replace("/ingresar")
             }
           }}
         />
