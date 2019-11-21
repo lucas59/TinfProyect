@@ -6,7 +6,6 @@ import { server } from "../config/config";
 import "../estilos/inicio.css";
 import socketIOClient from "socket.io-client";
 import { Button, Modal, InputGroup, FormControl, Form } from "react-bootstrap";
-import {FontAwesome} from "react-fontawesome";
 
 class Inicio extends Component {
   constructor() {
@@ -51,14 +50,13 @@ class Inicio extends Component {
                 <button
                   onClick={() => this.visualizar(data._id)}
                   className="btn btn-info"
-                >
-                  <FontAwesome icon={["fab", "apple"]} /> Ver
+                > Ver
                 </button>
               </td>
             </tr>
           );
         });
-      //  this.setState({ novedades: ret });
+        this.setState({ novedades: ret });
       } else {
         return <div>Lista vacia</div>;
       }
@@ -70,7 +68,7 @@ class Inicio extends Component {
     const { listaNovedades } = this.state;
     listaNovedades.forEach(element => {
       if (element._id == id) {
-        var fecha = dateFormat(element.fecha, "yyyy-mm-dd h:MM:ss");
+        var fecha = dateFormat(element.fecha, "dd-mm-yyyy h:MM:ss");
         this.setState({ titulo: element.titulo });
         this.setState({ cuerpo: element.cuerpo });
         this.setState({ contacto: element.contacto });
@@ -111,7 +109,7 @@ class Inicio extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.novedades ? this.state.novedades : "cargando"}
+                {this.state.novedades ? this.state.novedades : "Lista vacía"}
               </tbody>
             </table>
           </div>
@@ -119,10 +117,10 @@ class Inicio extends Component {
 
         <footer class="page-footer font-small blue">
           <div id="footer" class="footer-copyright text-center py-3">
-            2019 TECNOLÓGOS EN INFORMÁtica :
-            <a href="https://mdbootstrap.com/education/bootstrap/">
+            2019 TECNOLÓGOS EN INFORMÁTICA:
+            <a href="https://www.fing.edu.uy/tecnoinf/paysandu/index.html">
               {" "}
-              tecnoinf.com
+              Mas información
             </a>
           </div>
         </footer>

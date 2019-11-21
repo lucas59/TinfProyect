@@ -16,8 +16,8 @@ import {
 } from "react-bootstrap";
 var show = false;
 
-const handleClose = () => show = false;
-const handleShow = () => show = true;
+const handleClose = () => (show = false);
+const handleShow = () => (show = true);
 
 class Lista_carreras extends Component {
   constructor(props) {
@@ -27,17 +27,17 @@ class Lista_carreras extends Component {
       lista_carrera: "",
       lista: "",
       modalUpdate: false,
-      nombre: '',
-      descripcion: '',
-      egreso: '',
-      ingreso: '',
-      contacto: '',
-      id_carrera: ''
+      nombre: "",
+      descripcion: "",
+      egreso: "",
+      ingreso: "",
+      contacto: "",
+      id_carrera: ""
     };
   }
 
   Actualizar_carrera = () => {
-    const { nombre, descripcion, egreso, ingreso, contacto} = this.state;
+    const { nombre, descripcion, egreso, ingreso, contacto } = this.state;
     var data = new URLSearchParams();
     data.append("id_carrera", this.state.id_carrera);
     data.append("nombre_carrera", nombre);
@@ -46,38 +46,37 @@ class Lista_carreras extends Component {
     data.append("perfilegreso_carrera", egreso);
     data.append("contactos_carrera", contacto);
     console.log(JSON.stringify(data));
-    fetch(server.api + 'carrera/modificarcarrera', {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data
+    fetch(server.api + "carrera/modificarcarrera", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
     })
-        .then(function (res) {
-            return res.json();
-        })
+      .then(function(res) {
+        return res.json();
+      })
       .then(data => {
         this.cloaseModalUpdate();
-        })
-        .catch(function (res) {
-          console.log("res", res);
-          this.cloaseModalUpdate();
-        });
-
-};
+      })
+      .catch(function(res) {
+        console.log("res", res);
+        this.cloaseModalUpdate();
+      });
+  };
 
   cloaseModalUpdate = () => {
     this.setState({ modalUpdate: false });
   };
 
-  openModalUpdate = (id) => {
+  openModalUpdate = id => {
     this.setState({ modalUpdate: true });
-    this.setState({id_carrera : id});
+    this.setState({ id_carrera: id });
   };
 
   promesa = async () => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       fetch(server.api + "carrera/listarCarreras", {
         method: "GET"
       })
@@ -91,7 +90,7 @@ class Lista_carreras extends Component {
   };
 
   promesa_eliminar = async id => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       var data = new URLSearchParams();
       data.append("id", id);
       fetch(server.api + "carrera/EliminarCarrera", {
@@ -102,7 +101,7 @@ class Lista_carreras extends Component {
         },
         body: data
       })
-        .then(function (res) {
+        .then(function(res) {
           return res;
         })
         .then(async data => {
@@ -121,36 +120,36 @@ class Lista_carreras extends Component {
     window.location.replace("http://localhost:3000/altaMateria");
   };
 
-
   Listar = () => {
     this.promesa().then(data => {
+      var FA = require('react-fontawesome')
+
       if (data.mensaje.length > 0) {
         var ret = data.mensaje.map((data, i) => {
           return (
             <tr id={i}>
-              <td>{data.nombre_carrera}</td>
+              <td>{data.nombre_carrera} </td>
               <td>{data.descripcion_carrera}</td>
               <td>
                 <button
                   onClick={() => this.agregarMateria(data._id)}
-                  className="btn btn-info"
+                  className="btn btn-success"
                 >
                   Agregar materia
                 </button>
 
+                <Button
+                  className="btn btn-warning"
+                  onClick={() => this.openModalUpdate(data._id)}
+                ><i class="fab fa-adn"></i>
+                  Modificar
+                </Button>
                 <button
                   onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
+                  className="btn btn-danger"
                 >
                   Eliminar
                 </button>
-                <Button
-                  className="btn btn-info"
-                  onClick={() => this.openModalUpdate(data._id)}
-                >
-                  Modificar
-          </Button>
-
               </td>
             </tr>
           );
@@ -185,14 +184,20 @@ class Lista_carreras extends Component {
               <tr>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Opciones</th>
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
-            <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
+            <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
           </table>
         </div>
 
-        <Modal show={modalUpdate} onHide={this.cloaseModalUpdate} animation={true}>
+        <Modal
+          show={modalUpdate}
+          onHide={this.cloaseModalUpdate}
+          animation={true}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Modificar datos</Modal.Title>
           </Modal.Header>

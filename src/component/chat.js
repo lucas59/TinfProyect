@@ -10,6 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
+
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,7 @@ class Chat extends Component {
       nombreMateria: sessionStorage.getItem("chatActual_nombre"),
       usuario: JSON.parse(sessionStorage.getItem("session")),
       mensaje: '',
-      socket: socketIOClient("http://localhost:3050"),
+      socket: socketIOClient(server.api),
       lista: ''
     };
   }
@@ -119,7 +120,8 @@ class Chat extends Component {
     let minutes = date_ob.getMinutes();
     console.log(usuario);
     socket.emit("conectar", usuario);
-    this.state.socket.emit("sala_materia", this.state.idMateria);
+    socket.emit("sala_materia", this.state.idMateria);
+
     socket.on('usuarios', function (data) {
       console.log("usuarios: ", data);
       panel_usuarios.innerHTML = <ListItemText primary="+ data +" />;

@@ -134,7 +134,7 @@ class Lista_Alumnos extends Component {
               <td>
                 <button
                   onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
+                  className="btn btn-danger"
                 >
                   Eliminar
                 </button>
@@ -161,7 +161,7 @@ class Lista_Alumnos extends Component {
               <td>
                 <button
                   onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
+                  className="btn btn-danger"
                 >
                   Eliminar
                 </button>
@@ -262,7 +262,7 @@ class Lista_Alumnos extends Component {
                 <th>Opciones</th>
               </tr>
             </thead>
-            <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
+            <tbody>{this.state.lista ? this.state.lista : "Lista vacías"}</tbody>
           </table>
         </div>
 

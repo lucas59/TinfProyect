@@ -328,7 +328,7 @@ class AltaMateria extends Component {
                   name="profesor"
                 >
                   <option value="ninguno">Seleccionar</option>
-                  {this.state.docentes ? this.state.docentes : "cargando"}
+                  {this.state.docentes ? this.state.docentes : "Lista vacía"}
                 </select>
               </div>
               <div

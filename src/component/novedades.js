@@ -70,7 +70,7 @@ class Novedades extends Component {
       })
       .catch(function(res) {
         console.log("res", res);
-        this.cloaseModalUpdate();
+        this.closeModalAdd();
       });
   };
 
@@ -172,7 +172,7 @@ class Novedades extends Component {
               <td>
                 <button
                   onClick={() => this.eliminar_id(data._id)}
-                  className="btn btn-info"
+                  className="btn btn-danger"
                 >
                   Eliminar
                 </button>
@@ -222,7 +222,7 @@ class Novedades extends Component {
                 <th>Opciones</th>
               </tr>
             </thead>
-            <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
+            <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
           </table>
         </div>
 

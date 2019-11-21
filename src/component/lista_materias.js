@@ -227,33 +227,7 @@ class ListaMaterias extends Component {
     }
   };
 
-  /* ListarTodasMaterias = () => {
-    this.promesa().then(data => {
-      console.log("Todas las materias", data.retorno);
-      if (data.length > 0) {
-        var ret = data.retorno.map((data, i) => {
-          console.log("data",data);
-          return (
-            <tr id={i}>
-              <td>{data.nombreMateria}</td>
-              <td>
-                <button
-                  onClick={() => this.desvincularme(data._id)}
-                  className="btn btn-info"
-                >
-                  Eliminar
-                </button>
-                <button className="btn btn-info">Modificar</button>
-              </td>
-            </tr>
-          );
-        });
-        this.setState({ lista: ret });
-      } else {
-        return <div>Lista vacia</div>;
-      }
-    });
-  };*/
+
 
   componentDidMount() {
     this.Listar();
@@ -275,7 +249,7 @@ class ListaMaterias extends Component {
                 <th>Opciones</th>
               </tr>
             </thead>
-            <tbody>{this.state.lista ? this.state.lista : "cargando"}</tbody>
+            <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
           </table>
         </div>
 
@@ -295,7 +269,7 @@ class ListaMaterias extends Component {
               <tbody>
                 {this.state.listarMaterias
                   ? this.state.listarMaterias
-                  : "cargando"}
+                  : "Lista vacía"}
               </tbody>
             </table>
           </Modal.Body>
