@@ -362,9 +362,6 @@ class Docente extends Component {
                 type="password"
               />
             </InputGroup>
-            <DropdownButton id="dropdown-basic-button" title="Materias" onSelect="">
-              {this.state.listaMaterias ? this.state.listaMaterias : "cargando"}
-            </DropdownButton>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.cloaseModalAdd}>

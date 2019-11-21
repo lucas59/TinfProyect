@@ -232,9 +232,11 @@ class Cabecera extends Component {
                   </NavLink>
                 )}
               </li>
+              {session && session.tipo != 3 && (
               <NavLink className={styles.links} onClick={()=>this.redirigirANovedades()} >
                     Novedades
-                  </NavLink>
+              </NavLink>
+              )}
               <li class="nav-item">
                 <NavLink className={styles.links} to="/lista_materias">
                   Materias

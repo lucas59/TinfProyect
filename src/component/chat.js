@@ -119,7 +119,7 @@ class Chat extends Component {
     console.log(usuario);
     socket.emit("conectar", usuario);
     socket.emit("sala_materia", this.state.idMateria);
-    
+
     socket.on('usuarios', function (data) {
       console.log("usuarios: ", data);
       panel_usuarios.innerHTML = <ListItemText primary="+ data +" />;

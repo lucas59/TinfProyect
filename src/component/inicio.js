@@ -68,7 +68,7 @@ class Inicio extends Component {
     const { listaNovedades } = this.state;
     listaNovedades.forEach(element => {
       if (element._id == id) {
-        var fecha = dateFormat(element.fecha, "yyyy-mm-dd h:MM:ss");
+        var fecha = dateFormat(element.fecha, "dd-mm-yyyy h:MM:ss");
         this.setState({ titulo: element.titulo });
         this.setState({ cuerpo: element.cuerpo });
         this.setState({ contacto: element.contacto });
@@ -109,7 +109,7 @@ class Inicio extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.novedades ? this.state.novedades : "cargando"}
+                {this.state.novedades ? this.state.novedades : "Lista vacía"}
               </tbody>
             </table>
           </div>

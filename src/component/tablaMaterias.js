@@ -92,7 +92,7 @@ export default class tablaMaterias extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.lista ? this.state.lista : "cargando"}
+                        {this.state.lista ? this.state.lista : "Lista vacía"}
                     </tbody>
                 </table>
             </div>
