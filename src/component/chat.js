@@ -28,8 +28,10 @@ class Chat extends Component {
   Alta_mensaje = () => {
     const { idMateria, usuario, mensaje } = this.state;
     var data = new URLSearchParams();
+    console.log("entra usuario", usuario);
     data.append("idMateria", idMateria);
     data.append("usuario", usuario._id);
+    data.append("tipo_usuario", usuario.tipo);
     data.append("mensaje", mensaje);
     console.log(idMateria);
     console.log(usuario._id);
