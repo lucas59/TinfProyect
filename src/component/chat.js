@@ -31,7 +31,7 @@ class Chat extends Component {
     var data = new URLSearchParams();
     console.log("entra usuario", usuario);
     data.append("idMateria", idMateria);
-    data.append("usuario", usuario._id);
+    data.append("usuario", usuario.nombre + " " + usuario.apellido);
     data.append("tipo_usuario", usuario.tipo);
     data.append("mensaje", mensaje);
     console.log(idMateria);
@@ -135,7 +135,7 @@ class Chat extends Component {
     socket.on('Mensaje_materia', function (data) {
       console.log("entra mensaje");
       console.log(data);
-      panel.innerHTML += "<div role=\"tab\" tabindex=\"-1\" class=\"list-group-item\"><ListGroup.Item>Nombre: " + data.mensaje.usuario + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
+      panel.innerHTML += "<div role=\"tab\" tabindex=\"-1\" class=\"list-group-item\"><ListGroup.Item>Nombre: " + data.mensaje.usuario + " "+ data.mensaje.apellido + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
 
     });
     console.log("entra 1");
@@ -143,10 +143,6 @@ class Chat extends Component {
 
   };
 
-
-  componentWillUnmount = () => {
-
-  }
 
   _handleKeyDown = async e => {
     if (e.key === "Enter") {
@@ -158,7 +154,8 @@ class Chat extends Component {
       this.state.socket.emit('mensaje', {
         sala: this.state.idMateria,
         mensaje: mensaje,
-        usuario: usuario.nombre
+        usuario: usuario.nombre,
+        apellido: usuario.apellido
       });
       this.Alta_mensaje();
       document.getElementById("Chat_mensaje").value = "";
