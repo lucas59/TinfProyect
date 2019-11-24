@@ -39,9 +39,9 @@ class ListaMaterias extends Component {
   chatear = (id, nombre) => {
     sessionStorage.setItem("chatActual", id);
     console.log("nombre", nombre);
-    console.log("id",id);
+    console.log("id", id);
     sessionStorage.setItem("chatActual_nombre", nombre);
-    
+
     window.location.replace("http://localhost:3000/chat");
   };
 
@@ -227,8 +227,6 @@ class ListaMaterias extends Component {
     }
   };
 
-
-
   componentDidMount() {
     this.Listar();
     // this.ListarTodasMaterias();
@@ -246,7 +244,8 @@ class ListaMaterias extends Component {
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Opciones</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
