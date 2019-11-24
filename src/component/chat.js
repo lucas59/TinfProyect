@@ -107,7 +107,8 @@ class Chat extends Component {
   scrollToBottom = () => {
     this.el.scrollIntoView({ behavior: 'instant' });
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    await this.setState({idMateria: sessionStorage.getItem("chatActual")});
     const { socket, usuario, mensaje } = this.state;
     var panel_usuarios = document.getElementById("usuarios_panel");
     var panel = document.getElementById("Chat_panel");
@@ -115,8 +116,8 @@ class Chat extends Component {
     let hours = date_ob.getHours();
     let minutes = date_ob.getMinutes();
     console.log(usuario);
-    socket.emit("conectar", usuario);
-    socket.emit("sala_materia", this.state.idMateria);
+    console.log(this.state.idMateria);
+    socket.emit("conectar", usuario, this.state.idMateria);
 
     socket.on('usuarios', function (data) {
       console.log("usuarios: ", data);
