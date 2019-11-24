@@ -135,7 +135,7 @@ class ListaMaterias extends Component {
                 <td>
                   <button
                     onClick={() => {
-                      this.chatear(data._id);
+                      this.chatear(data._id, data.nombreMateria);
                     }}
                     className="btn btn-info"
                   >
