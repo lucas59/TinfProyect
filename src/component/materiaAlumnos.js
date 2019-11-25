@@ -259,7 +259,7 @@ class Lista_Alumnos extends Component {
               <tr>
                 <th>Nombre Apellido</th>
                 <th>Correo</th>
-                <th>Opciones</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>{this.state.lista ? this.state.lista : "Lista vacías"}</tbody>

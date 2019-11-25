@@ -39,7 +39,7 @@ class ListaMaterias extends Component {
   chatear = (id, nombre) => {
     sessionStorage.setItem("chatActual", id);
     console.log("nombre", nombre);
-    console.log("id",id);
+    console.log("id", id);
     sessionStorage.setItem("chatActual_nombre", nombre);
     window.location.replace("http://localhost:3000/chat");
   };
@@ -225,8 +225,6 @@ class ListaMaterias extends Component {
       });
     }
   };
-
-
 
   componentDidMount() {
     this.Listar();

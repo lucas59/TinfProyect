@@ -225,7 +225,7 @@ class Novedades extends Component {
                 <th>Contenido</th>
                 <th>Contacto</th>
                 <th>Fecha</th>
-                <th>Opciones</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>

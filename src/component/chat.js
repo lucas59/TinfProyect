@@ -28,14 +28,10 @@ class Chat extends Component {
   Alta_mensaje = () => {
     const { idMateria, usuario, mensaje } = this.state;
     var data = new URLSearchParams();
-    console.log("entra usuario", usuario);
     data.append("idMateria", idMateria);
     data.append("usuario", usuario.nombre + " " + usuario.apellido);
     data.append("tipo_usuario", usuario.tipo);
     data.append("mensaje", mensaje);
-    console.log(idMateria);
-    console.log(usuario._id);
-    console.log(mensaje);
     fetch(server.api + 'carrera/chat', {
       method: "POST",
       credentials: "include",
@@ -86,7 +82,7 @@ class Chat extends Component {
   Listar = () => {
     console.log("entra 2");
     this.promesa().then(async data => {
-      console.log(data.retorno);
+      console.log("data", data);
       if (data.retorno.mensajesChat.length > 0) {
         var ret = data.retorno.mensajesChat.map((data, i) => {
           console.log(data);
