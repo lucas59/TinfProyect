@@ -94,7 +94,6 @@ class Chat extends Component {
           let year = date_ob.getFullYear();
           return (
             <ListGroup.Item>
-              <Avatar alt="Remy Sharp" src="https://www.fourjay.org/myphoto/s/20/206383_user-png.png" />
                {data.autormensaje} {hours}:{minutes} {dia}/{mes}/{year} <br></br>  {data.mensaje}</ListGroup.Item>
           );
         });
@@ -138,7 +137,7 @@ class Chat extends Component {
         console.log("entra");
         NotificationManager.success(data.mensaje.usuario + " " + data.mensaje.apellido, "Nuevo mensaje de: ");
       }
-      panel.innerHTML += "  <div role=\"tab\"   tabindex=\"-1\" class=\"list-group-item\"><div class=\"MuiAvatar-root MuiAvatar-circle\" style=\"width: 5%;\"><img alt=\"Remy Sharp\" src=\"https://www.fourjay.org/myphoto/s/20/206383_user-png.png\" class=\"MuiAvatar-img\"></div><ListGroup.Item>Nombre: " + data.mensaje.usuario + " "+ data.mensaje.apellido + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
+      panel.innerHTML += "  <div role=\"tab\"   tabindex=\"-1\" class=\"list-group-item\"><div class=\"MuiAvatar-root MuiAvatar-circle\" style=\"width: 5%;\"></div><ListGroup.Item>Nombre: " + data.mensaje.usuario + " "+ data.mensaje.apellido + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
     });
     console.log("entra 1");
     this.Listar();
