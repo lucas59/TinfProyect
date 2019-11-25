@@ -1,7 +1,9 @@
 import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, Redirect } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import {
   DropdownButton,
   Dropdown,
@@ -27,12 +29,23 @@ class Lista_carreras extends Component {
       lista_carrera: "",
       lista: "",
       modalUpdate: false,
+      modalAlta: false,
       nombre: "",
       descripcion: "",
       egreso: "",
       ingreso: "",
       contacto: "",
-      id_carrera: ""
+      id_carrera: "",
+      nombre: "",
+      desc: "",
+      perfil_ing: "",
+      perfil_egr: "",
+      cont: "",
+      nombre_mod: "",
+      desc_mod: "",
+      perfil_ing_mod: "",
+      perfil_egr_mod: "",
+      cont_mod: ""
     };
   }
 
@@ -54,13 +67,13 @@ class Lista_carreras extends Component {
       },
       body: data
     })
-      .then(function(res) {
+      .then(function (res) {
         return res.json();
       })
       .then(data => {
         this.cloaseModalUpdate();
       })
-      .catch(function(res) {
+      .catch(function (res) {
         console.log("res", res);
         this.cloaseModalUpdate();
       });
@@ -70,13 +83,26 @@ class Lista_carreras extends Component {
     this.setState({ modalUpdate: false });
   };
 
-  openModalUpdate = id => {
+  openModalUpdate = (nombre, desc, perfil_egr, perfil_ing, cont) => {
     this.setState({ modalUpdate: true });
-    this.setState({ id_carrera: id });
+    this.setState({ nombre_mod: nombre });
+    this.setState({ desc_mod: desc });
+    this.setState({ perfil_egr_mod: perfil_egr });
+    this.setState({ perfil_ing: perfil_ing });
+    this.setState({ cont_mod: cont });
+
+  };
+
+  cloaseModal_alta = () => {
+    this.setState({ modalAlta: false });
+  };
+
+  openModal_alta = () => {
+    this.setState({ modalAlta: true });
   };
 
   promesa = async () => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       fetch(server.api + "carrera/listarCarreras", {
         method: "GET"
       })
@@ -90,7 +116,7 @@ class Lista_carreras extends Component {
   };
 
   promesa_eliminar = async id => {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var data = new URLSearchParams();
       data.append("id", id);
       fetch(server.api + "carrera/EliminarCarrera", {
@@ -101,7 +127,7 @@ class Lista_carreras extends Component {
         },
         body: data
       })
-        .then(function(res) {
+        .then(function (res) {
           return res;
         })
         .then(async data => {
@@ -110,11 +136,86 @@ class Lista_carreras extends Component {
     });
   };
 
+  Modificar_carrera = () => {
+    var data = new URLSearchParams();
+    const { nombre_mod, desc_mod, perfil_egr_mod, perfil_ing_mod, cont_mod } = this.state;
+    data.append("nombre_carrera", nombre_mod);
+    data.append("descripcion_carrera", desc_mod);
+    data.append("perfilegreso_carrera", perfil_egr_mod);
+    data.append("perfilingreso_carrera", perfil_ing_mod);
+    data.append("contactos_carrera", cont_mod);
+    fetch(server.api + "carrera/ModificarCarrera", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(data => {
+
+        if (data.retorno == false) {
+          NotificationManager.error(data.mensaje, "Error");
+        } else {
+          NotificationManager.success("Se modificó correctamente", "Exito");
+          this.Listar();
+          this.setState({ modalUpdate: false });
+        }
+      })
+      .catch(function (res) {
+        console.log("res", res);
+      });
+  }
+
+
+  Alta_carrera = () => {
+    console.log("entra");
+    const { nombre, desc, perfil_egr, perfil_ing, cont } = this.state;
+    console.log(nombre);
+    console.log(desc);
+    console.log(perfil_egr);
+    console.log(perfil_ing);
+    console.log(cont);
+    var data = new URLSearchParams();
+    data.append("nombre_carrera", nombre);
+    data.append("descripcion_carrera", desc);
+    data.append("perfilingreso_carrera", perfil_ing);
+    data.append("perfilegreso_carrera", perfil_egr);
+    data.append("contactos_carrera", cont);
+    console.log(JSON.stringify(data));
+    fetch(server.api + 'carrera/altaCarrera', {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data
+    })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(data => {
+        console.log("id de la respuesta:", data.respuesta);
+        sessionStorage.setItem("idCarrera", data.respuesta);
+        //return <Redirect to='/altaMateria' />
+        window.location.replace("http://localhost:3000/altaMateria");
+      })
+      .catch(function (res) {
+        console.log("res", res);
+        return <Redirect to='/alta_carrera' />
+      });
+
+  };
+
   eliminar_id = id => {
     this.promesa_eliminar(id).then(data => {
       console.log(data);
     });
   };
+
   agregarMateria = id => {
     sessionStorage.setItem("idCarrera", id);
     window.location.replace("http://localhost:3000/altaMateria");
@@ -139,11 +240,18 @@ class Lista_carreras extends Component {
                 </button>
 
                 <Button
-                  className="btn btn-warning"
-                  onClick={() => this.openModalUpdate(data._id)}
-                ><i class="fab fa-adn"></i>
+                  onClick={() => {
+                    this.openModalUpdate(
+                      data.nombre_carrera,
+                      data.descripcion_carrera,
+                      data.egreso,
+                      data.ingreso,
+                      data.contacto
+                    );
+                  }}
+                >
                   Modificar
-                </Button>
+              </Button>
                 <button
                   onClick={() => this.eliminar_id(data._id)}
                   className="btn btn-danger"
@@ -170,36 +278,42 @@ class Lista_carreras extends Component {
     const { modalAdd, modalUpdate } = this.state;
     return (
       <>
+        <NotificationContainer />
+
         <div className={styles.tabla_carreras}>
           <h1 className={styles.titulo_carreras}>Lista de carreras</h1>
-          <NavLink
-            style={{ fontSize: 20 }}
-            className={styles.links}
-            to="/alta_carrera"
+          <Button
+            className="btn btn-info"
+            onClick={() => this.openModal_alta()}
+            style={{ marginBottom: 10 }}
           >
-            Agregar carrera
-          </NavLink>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
-          </table>
+            Alta carrera
+                </Button>
+          <Paper
+            ref={this.chat}
+          >
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
+            </table>
+          </Paper>
         </div>
 
         <Modal
-          show={modalUpdate}
-          onHide={this.cloaseModalUpdate}
+          show={this.state.modalAlta}
+          onHide={this.cloaseModal_alta}
           animation={true}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Modificar datos</Modal.Title>
+            <Modal.Title>Alta carrera</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <InputGroup className="mb-1">
@@ -215,8 +329,8 @@ class Lista_carreras extends Component {
             <InputGroup className="mb-1">
               <FormControl
                 onChange={this.onChange}
-                value={this.state.descripcion}
-                name="descripcion"
+                value={this.state.desc}
+                name="desc"
                 placeholder="Descripción"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
@@ -225,16 +339,16 @@ class Lista_carreras extends Component {
             <InputGroup className="mb-2">
               <FormControl
                 onChange={this.onChange}
-                value={this.state.egreso}
-                name="egreso"
+                value={this.state.perfil_egr}
+                name="perfil_egr"
                 placeholder="Egreso"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
               />
               <FormControl
                 onChange={this.onChange}
-                value={this.state.ingreso}
-                name="ingreso"
+                value={this.state.perfil_ing}
+                name="perfil_ing"
                 placeholder="Ingreso"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
@@ -243,8 +357,8 @@ class Lista_carreras extends Component {
             <InputGroup className="mb-2">
               <FormControl
                 onChange={this.onChange}
-                value={this.state.contacto}
-                name="contacto"
+                value={this.state.cont}
+                name="cont"
                 placeholder="Contacto"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
@@ -252,10 +366,79 @@ class Lista_carreras extends Component {
             </InputGroup>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.cloaseModalAdd}>
+            <Button variant="secondary" onClick={this.cloaseModal_alta}>
               Cerrar
             </Button>
-            <Button variant="primary" onClick={this.Actualizar_carrera}>
+            <Button variant="primary" onClick={this.Alta_carrera}>
+              Guardar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+
+        <Modal
+          show={this.state.modalUpdate}
+          onHide={this.cloaseModalUpdate}
+          animation={true}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Modificar carrera</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <InputGroup className="mb-1">
+              <FormControl
+                onChange={this.onChange}
+                value={this.state.nombre_mod}
+                name="nombre_mod"
+                placeholder="Nombre"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+            </InputGroup>
+            <InputGroup className="mb-1">
+              <FormControl
+                onChange={this.onChange}
+                value={this.state.desc_mod}
+                name="desc_mod"
+                placeholder="Descripción"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+            </InputGroup>
+            <InputGroup className="mb-2">
+              <FormControl
+                onChange={this.onChange}
+                value={this.state.perfil_egr_mod}
+                name="perfil_egr_mod"
+                placeholder="Egreso"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+              <FormControl
+                onChange={this.onChange}
+                value={this.state.perfil_ing_mod}
+                name="perfil_ing_mod"
+                placeholder="Ingreso"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+            </InputGroup>
+            <InputGroup className="mb-2">
+              <FormControl
+                onChange={this.onChange}
+                value={this.state.cont_mod}
+                name="cont_mod"
+                placeholder="Contacto"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+            </InputGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.cloaseModal_modificar}>
+              Cerrar
+            </Button>
+            <Button variant="primary" onClick={this.Modificar_carrera}>
               Guardar
             </Button>
           </Modal.Footer>

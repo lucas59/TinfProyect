@@ -2,7 +2,7 @@ import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-
+import Paper from "@material-ui/core/Paper";
 import {
   DropdownButton,
   Dropdown,
@@ -41,7 +41,6 @@ class ListaMaterias extends Component {
     console.log("nombre", nombre);
     console.log("id",id);
     sessionStorage.setItem("chatActual_nombre", nombre);
-    
     window.location.replace("http://localhost:3000/chat");
   };
 
@@ -241,16 +240,18 @@ class ListaMaterias extends Component {
       <>
         <div className={styles.tabla_carreras}>
           <h1 className={styles.titulo_carreras}>Lista de materias</h1>
-
+          <Paper
+            ref={this.chat}
+          >
           <table className="table">
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
-          </table>
+            </table>
+            </Paper>
         </div>
 
         <Modal show={modalVincular} onHide={this.cerrarModal}>

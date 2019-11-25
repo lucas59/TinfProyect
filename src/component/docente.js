@@ -2,6 +2,7 @@ import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
 import {
   DropdownButton,
   Dropdown,
@@ -257,13 +258,18 @@ class Docente extends Component {
         <NotificationContainer/>
 
           <h1 className={styles.titulo_carreras}>Lista de docentes</h1>
-          <NavLink
+       
+          <Button
+            className="btn btn-info"
             style={{ fontSize: 20 }}
-            className={styles.links}
             onClick={this.openModalAdd}
+            style={{ marginBottom: 10 }}
           >
             Agregar docente
-          </NavLink>
+                </Button>
+          <Paper
+            ref={this.chat}
+          >
           <table className="table">
             <thead>
               <tr>
@@ -278,6 +284,7 @@ class Docente extends Component {
             </thead>
             <tbody>{this.state.lista}</tbody>
           </table>
+        </Paper>
         </div>
         <Modal show={modalAdd} onHide={this.cloaseModalAdd} animation={false}>
           <Modal.Header closeButton>

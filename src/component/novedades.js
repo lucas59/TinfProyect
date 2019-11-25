@@ -1,6 +1,7 @@
 import React, { Component, View, Text } from "react";
 import styles from "../estilos/lista_carreras.module.css";
 import { server } from "../config/config";
+import Paper from "@material-ui/core/Paper";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import {
   NotificationContainer,
@@ -205,13 +206,18 @@ class Novedades extends Component {
         <NotificationContainer />
         <div className={styles.tabla_carreras}>
           <h1 className={styles.titulo_carreras}>Lista de novedades</h1>
-          <NavLink
+        
+          <Button
+            className="btn btn-info"
             style={{ fontSize: 20 }}
-            className={styles.links}
             onClick={this.abrirModal}
+            style={{ marginBottom: 10 }}
           >
             Agregar novedad
-          </NavLink>
+                </Button>
+          <Paper
+            ref={this.chat}
+          >
           <table className="table">
             <thead>
               <tr>
@@ -223,7 +229,8 @@ class Novedades extends Component {
               </tr>
             </thead>
             <tbody>{this.state.lista ? this.state.lista : "Lista vacía"}</tbody>
-          </table>
+            </table>
+            </Paper>
         </div>
 
         <Modal show={modalAdd} onHide={this.closeModalAdd} animation={true}>

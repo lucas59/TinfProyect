@@ -5,10 +5,9 @@ import Paper from "@material-ui/core/Paper";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListGroup from 'react-bootstrap/ListGroup';
-import Grid from '@material-ui/core/Grid';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Avatar from '@material-ui/core/Avatar';
 
 class Chat extends Component {
@@ -94,10 +93,13 @@ class Chat extends Component {
           let date_ob = new Date(data.fechaMensaje);
           let hours = date_ob.getHours();
           let minutes = date_ob.getMinutes();
+          let dia = date_ob.getDay();
+          let mes = date_ob.getMonth();
+          let year = date_ob.getFullYear();
           return (
             <ListGroup.Item>
               <Avatar alt="Remy Sharp" src="https://www.fourjay.org/myphoto/s/20/206383_user-png.png" />
-              Nombre: {data.autormensaje} {hours}:{minutes} <br></br> Mensaje: {data.mensaje}</ListGroup.Item>
+               {data.autormensaje} {hours}:{minutes} {dia}/{mes}/{year} <br></br>  {data.mensaje}</ListGroup.Item>
           );
         });
         await this.setState({ lista: ret });
@@ -136,8 +138,11 @@ class Chat extends Component {
     socket.on('Mensaje_materia', function (data) {
       console.log("entra mensaje");
       console.log(data);
-      panel.innerHTML += "<div role=\"tab\" tabindex=\"-1\" class=\"list-group-item\"><ListGroup.Item>Nombre: " + data.mensaje.usuario + " "+ data.mensaje.apellido + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
-
+      if (data.mensaje.id != JSON.parse(sessionStorage.getItem("session"))._id) {
+        console.log("entra");
+        NotificationManager.success(data.mensaje.usuario + " " + data.mensaje.apellido, "Nuevo mensaje de: ");
+      }
+      panel.innerHTML += "  <div role=\"tab\" tabindex=\"-1\" class=\"list-group-item\"><div class=\"MuiAvatar-root MuiAvatar-circle\"><img alt=\"Remy Sharp\" src=\"https://www.fourjay.org/myphoto/s/20/206383_user-png.png\" class=\"MuiAvatar-img\"></div><ListGroup.Item>Nombre: " + data.mensaje.usuario + " "+ data.mensaje.apellido + " " + hours + ":" + minutes + "<br>Mensaje: " + data.mensaje.mensaje + "</ListGroup.Item></div>";
     });
     console.log("entra 1");
     this.Listar();
@@ -156,12 +161,12 @@ class Chat extends Component {
         sala: this.state.idMateria,
         mensaje: mensaje,
         usuario: usuario.nombre,
-        apellido: usuario.apellido
+        apellido: usuario.apellido,
+        id : usuario._id
       });
       this.Alta_mensaje();
       document.getElementById("Chat_mensaje").value = "";
-
-    }
+      }
   };
 
   render() {
@@ -172,6 +177,7 @@ class Chat extends Component {
           id="usuarios_panel"
         >
         </div>
+        <NotificationContainer/>
         <Paper
           ref={this.chat}
           style={{

@@ -12,7 +12,6 @@ import {
   FormGroup,
   FormControl
 } from "react-bootstrap";
-import AltaCarrera from "./alta_carrera";
 import Lista_carreras from "./lista_carreras";
 import ModificarCarrera from "./modificar_carrera";
 import EliminarCarrera from "./eliminar_carrera";
@@ -26,7 +25,6 @@ import ListaMaterias from "./lista_materias";
 import Chat from "./chat";
 import styles from "../estilos/navigation.module.css";
 import { server } from "../config/config";
-import Alta_carrera from "./alta_carrera";
 import Login from "./login";
 import Signup from "./signup";
 import Novedades from "./novedades";
@@ -423,16 +421,7 @@ class Cabecera extends Component {
           }}
         />
 
-        <Route
-          path="/alta_carrera"
-          component={() => {
-            if (sessionStorage.getItem("session")) {
-              return <Alta_carrera />;
-            } else {
-              window.location.replace("/ingresar");
-            }
-          }}
-        />
+        
 
         <Route
           path="/modificarCarrera"
